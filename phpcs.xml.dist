@@ -7,5 +7,11 @@
     <file>front</file>
     <file>tests</file>
     <exclude-pattern>vendor/*</exclude-pattern>
-    <rule ref="PSR12"/>
+    <rule ref="PSR12">
+        <exclude name="PSR1.Files.SideEffects"/>
+    </rule>
+    <rule ref="PSR1.Files.SideEffects">
+        <exclude-pattern>front/config.form.php</exclude-pattern>
+        <exclude-pattern>tests/bootstrap.php</exclude-pattern>
+    </rule>
 </ruleset>

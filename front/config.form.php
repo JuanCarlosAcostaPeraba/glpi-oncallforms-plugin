@@ -125,7 +125,7 @@ Html::header(
             <fieldset class="mb-4">
                 <legend class="form-label"><?= oncallforms_escape(__('Business days', 'oncallforms')) ?></legend>
                 <div class="d-flex flex-wrap gap-3">
-                    <?php foreach ($weekdays as $number => $label): ?>
+                    <?php foreach ($weekdays as $number => $label) : ?>
                         <label class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" name="business_days[]"
                                    value="<?= $number ?>"
@@ -157,11 +157,13 @@ Html::header(
                         ) ?>
                     </div>
                 </div>
-                <?php foreach ([
-                    'checkbox_text' => __('Checkbox text', 'oncallforms'),
-                    'oncall_button_text' => __('On-call button text', 'oncallforms'),
-                    'continue_button_text' => __('Continue button text', 'oncallforms'),
-                ] as $field => $label): ?>
+                <?php foreach (
+                    [
+                        'checkbox_text' => __('Checkbox text', 'oncallforms'),
+                        'oncall_button_text' => __('On-call button text', 'oncallforms'),
+                        'continue_button_text' => __('Continue button text', 'oncallforms'),
+                    ] as $field => $label
+                ) : ?>
                     <div class="col-md-4">
                         <label class="form-label" for="<?= oncallforms_escape($field) ?>">
                             <?= oncallforms_escape($label) ?>
@@ -175,11 +177,13 @@ Html::header(
 
             <h3><?= oncallforms_escape(__('Appearance', 'oncallforms')) ?></h3>
             <div class="row g-3">
-                <?php foreach ([
-                    'card_background' => __('Background color', 'oncallforms'),
-                    'card_border' => __('Border color', 'oncallforms'),
-                    'card_text' => __('Text color', 'oncallforms'),
-                ] as $field => $label): ?>
+                <?php foreach (
+                    [
+                        'card_background' => __('Background color', 'oncallforms'),
+                        'card_border' => __('Border color', 'oncallforms'),
+                        'card_text' => __('Text color', 'oncallforms'),
+                    ] as $field => $label
+                ) : ?>
                     <div class="col-md-3">
                         <label class="form-label" for="<?= oncallforms_escape($field) ?>">
                             <?= oncallforms_escape($label) ?>
