@@ -163,7 +163,7 @@ Html::header(
                         'oncall_button_text' => __('On-call button text', 'oncallforms'),
                         'continue_button_text' => __('Continue button text', 'oncallforms'),
                     ] as $field => $label
-                ) : ?>
+) : ?>
                     <div class="col-md-4">
                         <label class="form-label" for="<?= oncallforms_escape($field) ?>">
                             <?= oncallforms_escape($label) ?>
@@ -183,7 +183,7 @@ Html::header(
                         'card_border' => __('Border color', 'oncallforms'),
                         'card_text' => __('Text color', 'oncallforms'),
                     ] as $field => $label
-                ) : ?>
+) : ?>
                     <div class="col-md-3">
                         <label class="form-label" for="<?= oncallforms_escape($field) ?>">
                             <?= oncallforms_escape($label) ?>
