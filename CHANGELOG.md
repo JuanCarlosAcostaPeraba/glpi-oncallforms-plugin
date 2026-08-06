@@ -4,6 +4,12 @@ All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-08-06
+
+### Corregido
+
+- JavaScript y CSS se sirven desde el directorio público obligatorio de los plugins de GLPI 11, evitando respuestas 404.
+
 ## [1.0.6] - 2026-08-06
 
 ### Corregido

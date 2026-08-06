@@ -6,7 +6,7 @@
 composer install
 composer validate --strict
 composer check
-node --check js/oncallforms.js
+node --check public/js/oncallforms.js
 ```
 
 Unit tests cover every required time boundary, timezone conversion, configurable days, date changes, invalid intervals, invalid IDs, empty days, invalid timezone identifiers, text sanitization, and CSS color injection.

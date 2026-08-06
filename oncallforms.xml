@@ -2,7 +2,7 @@
 <root>
   <name>Formularios de guardia</name>
   <key>oncallforms</key>
-  <version>1.0.6</version>
+  <version>1.0.7</version>
   <license>GPL-3.0-or-later</license>
   <homepage>https://github.com/JuanCarlosAcostaPeraba/glpi-oncallforms-plugin</homepage>
   <authors>

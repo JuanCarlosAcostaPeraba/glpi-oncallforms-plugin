@@ -40,6 +40,17 @@ final class SetupTest extends TestCase
         self::assertStringNotContainsString("\$_SERVER['PHP_SELF']", $source);
     }
 
+    public function testRegistersAssetsFromGlpiPublicDirectory(): void
+    {
+        $source = file_get_contents(dirname(__DIR__, 2) . '/setup.php');
+
+        self::assertIsString($source);
+        self::assertStringContainsString('public/js/oncallforms.js', $source);
+        self::assertStringContainsString('public/css/oncallforms.css', $source);
+        self::assertFileExists(dirname(__DIR__, 2) . '/public/js/oncallforms.js');
+        self::assertFileExists(dirname(__DIR__, 2) . '/public/css/oncallforms.css');
+    }
+
     public function testChecksConfigurationUsingOnlyGlpiCoreClasses(): void
     {
         \Config::$values['plugin:oncallforms'] = [

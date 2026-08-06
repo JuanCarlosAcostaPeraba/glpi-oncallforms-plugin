@@ -54,7 +54,7 @@ The default interval is Monday-Friday, `08:00-15:00` in the configured/effective
 
 ## Configuration
 
-See [docs/configuration.md](docs/configuration.md). Version 1.0.6 stores one global configuration. The warning targets a configurable service-catalog category, while the form selector shows only active, non-deleted native forms allowed by GLPI's current entity and access policies.
+See [docs/configuration.md](docs/configuration.md). Version 1.0.7 stores one global configuration. The warning targets a configurable service-catalog category, while the form selector shows only active, non-deleted native forms allowed by GLPI's current entity and access policies.
 
 ## Security
 
@@ -66,7 +66,7 @@ The card hiding rule is visual because GLPI 11 exposes no public server hook for
 
 - Global configuration only; no per-entity inheritance.
 - One interval per day; no holidays, split shifts, teams, notifications, ticket automation, or acceptance audit.
-- DOM adaptation depends on the public `/Form/Render/{id}` link shape and is isolated in `js/oncallforms.js`.
+- DOM adaptation depends on the public `/Form/Render/{id}` link shape and is isolated in `public/js/oncallforms.js`.
 - Browser and install verification requires a real GLPI 11 test environment.
 
 ## Development and tests
@@ -74,7 +74,7 @@ The card hiding rule is visual because GLPI 11 exposes no public server hook for
 ```bash
 composer install
 composer check
-node --check js/oncallforms.js
+node --check public/js/oncallforms.js
 ```
 
 See [docs/architecture.md](docs/architecture.md) and [docs/testing.md](docs/testing.md). Generate gettext files with `xgettext`, update `.po` files with `msgmerge`, and compile `.mo` files with `msgfmt`; generated `.mo` files are release artifacts, not hand-written files.

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Glpi\Plugin\Hooks;
 
-define('PLUGIN_ONCALLFORMS_VERSION', '1.0.6');
+define('PLUGIN_ONCALLFORMS_VERSION', '1.0.7');
 define('PLUGIN_ONCALLFORMS_MIN_GLPI', '11.0.0');
 define('PLUGIN_ONCALLFORMS_MAX_GLPI', '12.0.0');
 define('PLUGIN_ONCALLFORMS_MIN_PHP', '8.2.0');
@@ -26,10 +26,10 @@ function plugin_init_oncallforms(): void
             return;
         }
 
-        $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['oncallforms'][] = 'js/oncallforms.js';
-        $PLUGIN_HOOKS[Hooks::ADD_CSS]['oncallforms'][] = 'css/oncallforms.css';
-        $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT_ANONYMOUS_PAGE]['oncallforms'][] = 'js/oncallforms.js';
-        $PLUGIN_HOOKS[Hooks::ADD_CSS_ANONYMOUS_PAGE]['oncallforms'][] = 'css/oncallforms.css';
+        $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['oncallforms'][] = 'public/js/oncallforms.js';
+        $PLUGIN_HOOKS[Hooks::ADD_CSS]['oncallforms'][] = 'public/css/oncallforms.css';
+        $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT_ANONYMOUS_PAGE]['oncallforms'][] = 'public/js/oncallforms.js';
+        $PLUGIN_HOOKS[Hooks::ADD_CSS_ANONYMOUS_PAGE]['oncallforms'][] = 'public/css/oncallforms.css';
         $PLUGIN_HOOKS[Hooks::ADD_HEADER_TAG]['oncallforms'][] = [
             'tag' => 'meta',
             'properties' => [
