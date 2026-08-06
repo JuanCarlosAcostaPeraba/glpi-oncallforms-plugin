@@ -6,10 +6,15 @@ namespace GlpiPlugin\Oncallforms;
 
 final class ServiceCatalogRequest
 {
-    public static function categoryId(string $requestUri): ?int
+    public static function isCatalog(string $requestUri): bool
     {
         $path = parse_url($requestUri, PHP_URL_PATH);
-        if (!is_string($path) || preg_match('~/ServiceCatalog(?:/|$)~', $path) !== 1) {
+        return is_string($path) && preg_match('~/ServiceCatalog(?:/|$)~', $path) === 1;
+    }
+
+    public static function categoryId(string $requestUri): ?int
+    {
+        if (!self::isCatalog($requestUri)) {
             return null;
         }
 

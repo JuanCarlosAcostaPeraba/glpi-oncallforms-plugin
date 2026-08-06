@@ -4,6 +4,13 @@ All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-08-06
+
+### Corregido
+
+- Los recursos del plugin se cargan desde la raíz del catálogo para colorear la tarjeta de guardias.
+- Fuera de horario, el clic en la categoría configurada muestra el aviso antes de entrar, incluso con navegación dinámica.
+
 ## [1.0.5] - 2026-08-06
 
 ### Cambiado

@@ -25,6 +25,19 @@
         }
     };
 
+    const urlMatchesCategory = (href, categoryId) => {
+        if (!href || !Number.isInteger(categoryId)) {
+            return false;
+        }
+        try {
+            const url = new URL(href, window.location.href);
+            return /\/ServiceCatalog\/?$/.test(url.pathname)
+                && url.searchParams.get('category') === String(categoryId);
+        } catch (_error) {
+            return false;
+        }
+    };
+
     const decorateCatalog = () => {
         const catalog = context.catalog;
         if (!catalog?.enabled || !Number.isInteger(catalog.formId)) {
@@ -127,12 +140,36 @@
         instance.show();
     };
 
+    const bindCategoryWarning = () => {
+        const warning = context.warning;
+        if (!warning?.enabled || !Number.isInteger(warning.categoryId)) {
+            return;
+        }
+
+        document.querySelectorAll('a[href]').forEach((link) => {
+            if (link.dataset.oncallformsWarningBound !== undefined
+                || !urlMatchesCategory(link.getAttribute('href'), warning.categoryId)) {
+                return;
+            }
+
+            link.dataset.oncallformsWarningBound = '';
+            link.addEventListener('click', showWarning, {capture: true});
+        });
+    };
+
     const initialize = () => {
         decorateCatalog();
-        showWarning();
+        bindCategoryWarning();
+        if (context.warning?.showInitially
+            || urlMatchesCategory(window.location.href, context.warning?.categoryId)) {
+            showWarning();
+        }
         const catalogRoot = document.querySelector('[data-glpi-service-catalog-items]');
         if (catalogRoot) {
-            new MutationObserver(decorateCatalog).observe(catalogRoot, {childList: true, subtree: true});
+            new MutationObserver(() => {
+                decorateCatalog();
+                bindCategoryWarning();
+            }).observe(catalogRoot, {childList: true, subtree: true});
         }
     };
 

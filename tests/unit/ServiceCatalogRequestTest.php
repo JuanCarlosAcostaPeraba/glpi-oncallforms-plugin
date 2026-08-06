@@ -12,6 +12,7 @@ final class ServiceCatalogRequestTest extends TestCase
 {
     public function testExtractsCategoryFromCatalogUrl(): void
     {
+        self::assertTrue(ServiceCatalogRequest::isCatalog('/ServiceCatalog'));
         self::assertSame(27, ServiceCatalogRequest::categoryId('/ServiceCatalog?category=27'));
         self::assertSame(27, ServiceCatalogRequest::categoryId('/glpi/ServiceCatalog?foo=bar&category=27'));
     }
@@ -20,6 +21,11 @@ final class ServiceCatalogRequestTest extends TestCase
     public function testRejectsUnrelatedOrInvalidRequests(string $requestUri): void
     {
         self::assertNull(ServiceCatalogRequest::categoryId($requestUri));
+    }
+
+    public function testRejectsNonCatalogPath(): void
+    {
+        self::assertFalse(ServiceCatalogRequest::isCatalog('/Form/Render/27'));
     }
 
     /** @return iterable<string, array{string}> */

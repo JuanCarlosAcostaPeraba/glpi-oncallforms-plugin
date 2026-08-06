@@ -26,20 +26,23 @@ final readonly class FrontendContext
             new DateTimeZone($config['timezone']),
         );
         $isOnCall = $schedule->isOnCall(new DateTimeImmutable('now', $schedule->getTimezone()));
+        $isCatalog = ServiceCatalogRequest::isCatalog($requestUri);
         $requestedCategoryId = ServiceCatalogRequest::categoryId($requestUri);
         $isTargetCategory = $requestedCategoryId === $config['catalog_category_id'];
-        $oncall = $isTargetCategory
+        $oncall = $isCatalog
             ? (new FormResolver())->resolveAccessible($config['oncall_form_id'])
             : null;
 
         $data = [
             'catalog' => [
-                'enabled' => $isTargetCategory && $oncall !== null,
+                'enabled' => $isCatalog && $oncall !== null,
                 'formId' => $oncall?->getID(),
                 'hidden' => !$isOnCall,
             ],
             'warning' => [
-                'enabled' => $isOnCall && $isTargetCategory && $oncall !== null,
+                'enabled' => $isOnCall && $isCatalog && $oncall !== null,
+                'showInitially' => $isTargetCategory,
+                'categoryId' => $config['catalog_category_id'],
                 'title' => __($config['modal_title'], 'oncallforms'),
                 'body' => __($config['modal_body'], 'oncallforms'),
                 'checkbox' => __($config['checkbox_text'], 'oncallforms'),
