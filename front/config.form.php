@@ -205,7 +205,9 @@ Html::header(
         </div>
         <div class="card-footer d-flex justify-content-end">
             <input type="hidden" name="_glpi_csrf_token" value="<?= oncallforms_escape(Session::getNewCSRFToken()) ?>">
-            <button class="btn btn-primary" type="submit"><?= oncallforms_escape(__('Guardar', 'oncallforms')) ?></button>
+            <button class="btn btn-primary" type="submit">
+                <?= oncallforms_escape(__('Guardar', 'oncallforms')) ?>
+            </button>
         </div>
     </form>
 </div>

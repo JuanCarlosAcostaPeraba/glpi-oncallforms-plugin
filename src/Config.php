@@ -112,7 +112,9 @@ final class Config
         $start = self::time($input['business_start'] ?? null);
         $end = self::time($input['business_end'] ?? null);
         if ($start >= $end) {
-            throw new InvalidArgumentException(__('La hora de inicio debe ser anterior a la hora de fin.', 'oncallforms'));
+            throw new InvalidArgumentException(
+                __('La hora de inicio debe ser anterior a la hora de fin.', 'oncallforms')
+            );
         }
 
         $days = array_values(array_unique(array_map('intval', (array) ($input['business_days'] ?? []))));
@@ -181,7 +183,9 @@ final class Config
         // Byte length is deliberately conservative and avoids relying on an
         // optional PHP extension for a security boundary.
         if ($text === '' || strlen($text) > $maxLength) {
-            throw new InvalidArgumentException(__('Un texto obligatorio está vacío o es demasiado largo.', 'oncallforms'));
+            throw new InvalidArgumentException(
+                __('Un texto obligatorio está vacío o es demasiado largo.', 'oncallforms')
+            );
         }
         return $text;
     }
