@@ -4,6 +4,12 @@ All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-08-06
+
+### Corregido
+
+- Se evita validar dos veces el token CSRF que GLPI 11 ya comprueba antes de cargar scripts heredados.
+
 ## [1.0.2] - 2026-08-06
 
 ### Corregido

@@ -16,7 +16,6 @@ $configUrl = Html::getPrefixedUrl('/plugins/oncallforms/front/config.form.php');
 $resolver = new FormResolver();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     Session::checkRight('config', UPDATE);
-    Session::checkCSRF($_POST);
 
     try {
         Config::save($_POST, $resolver);

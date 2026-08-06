@@ -21,7 +21,7 @@ The context is request-scoped. On catalog requests it contains the accessible on
 
 GLPI 11 has no public hook to remove an item from the built-in `FormProvider`, and `ServiceCatalogManager` is final. Replacing internal services would be more fragile than a narrow DOM adapter. The plugin therefore finds only links whose normalized pathname ends with `/Form/Render/{validated-id}`. It never matches display text, order, or generic card classes alone. A `MutationObserver` reapplies the rule after catalog filtering, category navigation, sorting, and pagination.
 
-This is presentation control. A user who disables JavaScript can still see the card, and direct access remains allowed by design in 1.0.2. GLPI remains responsible for all form permissions.
+This is presentation control. A user who disables JavaScript can still see the card, and direct access remains allowed by design in 1.0.3. GLPI remains responsible for all form permissions.
 
 ## Access warning
 
@@ -29,7 +29,7 @@ PHP extracts the actual ID from the `/Form/Render/{id}` path and compares it wit
 
 ## Configuration scope
 
-Configuration is global in 1.0.2. A form can only be selected when it is active, non-deleted, visible in the administrator's active entity scope, and answerable under native access policies. This avoids pretending to implement entity inheritance. Administrators must configure from an entity scope in which both target forms are available.
+Configuration is global in 1.0.3. A form can only be selected when it is active, non-deleted, visible in the administrator's active entity scope, and answerable under native access policies. This avoids pretending to implement entity inheritance. Administrators must configure from an entity scope in which both target forms are available.
 
 ## Security boundaries
 
