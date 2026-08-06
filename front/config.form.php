@@ -12,6 +12,7 @@ include GLPI_ROOT . '/inc/includes.php';
 
 Session::checkRight('config', UPDATE);
 
+$configUrl = rtrim((string) $CFG_GLPI['root_doc'], '/') . '/plugins/oncallforms/front/config.form.php';
 $resolver = new FormResolver();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     Session::checkRight('config', UPDATE);
@@ -19,23 +20,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         Config::save($_POST, $resolver);
-        Session::addMessageAfterRedirect(__('Settings saved.', 'oncallforms'), true, INFO);
+        Session::addMessageAfterRedirect(__('Configuración guardada.', 'oncallforms'), true, INFO);
     } catch (InvalidArgumentException $exception) {
         Session::addMessageAfterRedirect($exception->getMessage(), true, ERROR);
     }
-    Html::redirect($_SERVER['PHP_SELF']);
+    Html::redirect($configUrl);
 }
 
 $config = Config::get();
 $forms = $resolver->getSelectableOptions();
 $weekdays = [
-    1 => __('Monday', 'oncallforms'),
-    2 => __('Tuesday', 'oncallforms'),
-    3 => __('Wednesday', 'oncallforms'),
-    4 => __('Thursday', 'oncallforms'),
-    5 => __('Friday', 'oncallforms'),
-    6 => __('Saturday', 'oncallforms'),
-    7 => __('Sunday', 'oncallforms'),
+    1 => __('Lunes', 'oncallforms'),
+    2 => __('Martes', 'oncallforms'),
+    3 => __('Miércoles', 'oncallforms'),
+    4 => __('Jueves', 'oncallforms'),
+    5 => __('Viernes', 'oncallforms'),
+    6 => __('Sábado', 'oncallforms'),
+    7 => __('Domingo', 'oncallforms'),
 ];
 
 /** @param mixed $value */
@@ -45,65 +46,65 @@ function oncallforms_escape($value): string
 }
 
 Html::header(
-    __('On-call Forms configuration', 'oncallforms'),
-    $_SERVER['PHP_SELF'],
+    __('Configuración de Formularios de guardia', 'oncallforms'),
+    $configUrl,
     'config',
     'plugins'
 );
 ?>
 <div class="container-xl">
-    <form method="post" action="<?= oncallforms_escape($_SERVER['PHP_SELF']) ?>" class="card">
+    <form method="post" action="<?= oncallforms_escape($configUrl) ?>" class="card">
         <div class="card-header">
-            <h2 class="card-title"><?= oncallforms_escape(__('On-call Forms', 'oncallforms')) ?></h2>
+            <h2 class="card-title"><?= oncallforms_escape(__('Formularios de guardia', 'oncallforms')) ?></h2>
         </div>
         <div class="card-body">
-            <h3><?= oncallforms_escape(__('Forms', 'oncallforms')) ?></h3>
+            <h3><?= oncallforms_escape(__('Formularios', 'oncallforms')) ?></h3>
             <div class="row g-3 mb-4">
                 <div class="col-md-6">
                     <label class="form-label" for="dropdown_oncall_form_id0">
-                        <?= oncallforms_escape(__('On-call form', 'oncallforms')) ?>
+                        <?= oncallforms_escape(__('Formulario de guardia', 'oncallforms')) ?>
                     </label>
                     <?php Dropdown::showFromArray('oncall_form_id', $forms, [
                         'value' => $config['oncall_form_id'],
                         'display_emptychoice' => true,
                         'width' => '100%',
                         'rand' => 0,
-                        'aria_label' => __('On-call form', 'oncallforms'),
+                        'aria_label' => __('Formulario de guardia', 'oncallforms'),
                     ]); ?>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label" for="dropdown_normal_form_id0">
-                        <?= oncallforms_escape(__('Normal incident form', 'oncallforms')) ?>
+                        <?= oncallforms_escape(__('Formulario normal de incidencias', 'oncallforms')) ?>
                     </label>
                     <?php Dropdown::showFromArray('normal_form_id', $forms, [
                         'value' => $config['normal_form_id'],
                         'display_emptychoice' => true,
                         'width' => '100%',
                         'rand' => 0,
-                        'aria_label' => __('Normal incident form', 'oncallforms'),
+                        'aria_label' => __('Formulario normal de incidencias', 'oncallforms'),
                     ]); ?>
                 </div>
             </div>
 
-            <h3><?= oncallforms_escape(__('Business schedule', 'oncallforms')) ?></h3>
+            <h3><?= oncallforms_escape(__('Horario laboral', 'oncallforms')) ?></h3>
             <div class="row g-3 mb-3">
                 <div class="col-md-3">
                     <label class="form-label" for="business_start">
-                        <?= oncallforms_escape(__('Start', 'oncallforms')) ?>
+                        <?= oncallforms_escape(__('Inicio', 'oncallforms')) ?>
                     </label>
                     <input class="form-control" id="business_start" name="business_start" type="time" required
                            value="<?= oncallforms_escape($config['business_start']) ?>">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label" for="business_end">
-                        <?= oncallforms_escape(__('End', 'oncallforms')) ?>
+                        <?= oncallforms_escape(__('Fin', 'oncallforms')) ?>
                     </label>
                     <input class="form-control" id="business_end" name="business_end" type="time" required
                            value="<?= oncallforms_escape($config['business_end']) ?>">
                 </div>
                 <div class="col-md-6">
                     <label class="form-label" for="dropdown_timezone0">
-                        <?= oncallforms_escape(__('Time zone', 'oncallforms')) ?>
+                        <?= oncallforms_escape(__('Zona horaria', 'oncallforms')) ?>
                     </label>
                     <?php
                     $timezones = array_combine(DateTimeZone::listIdentifiers(), DateTimeZone::listIdentifiers());
@@ -111,19 +112,19 @@ Html::header(
                         'value' => $config['timezone'],
                         'width' => '100%',
                         'rand' => 0,
-                        'aria_label' => __('Time zone', 'oncallforms'),
+                        'aria_label' => __('Zona horaria', 'oncallforms'),
                     ]);
                     ?>
                     <div class="form-hint">
                         <?= oncallforms_escape(sprintf(
-                            __('Effective time zone: %s', 'oncallforms'),
+                            __('Zona horaria efectiva: %s', 'oncallforms'),
                             $config['timezone']
                         )) ?>
                     </div>
                 </div>
             </div>
             <fieldset class="mb-4">
-                <legend class="form-label"><?= oncallforms_escape(__('Business days', 'oncallforms')) ?></legend>
+                <legend class="form-label"><?= oncallforms_escape(__('Días laborables', 'oncallforms')) ?></legend>
                 <div class="d-flex flex-wrap gap-3">
                     <?php foreach ($weekdays as $number => $label) : ?>
                         <label class="form-check form-check-inline">
@@ -136,32 +137,32 @@ Html::header(
                 </div>
             </fieldset>
 
-            <h3><?= oncallforms_escape(__('Warning message', 'oncallforms')) ?></h3>
+            <h3><?= oncallforms_escape(__('Mensaje de aviso', 'oncallforms')) ?></h3>
             <div class="row g-3 mb-4">
                 <div class="col-md-6">
                     <label class="form-label" for="modal_title">
-                        <?= oncallforms_escape(__('Modal title', 'oncallforms')) ?>
+                        <?= oncallforms_escape(__('Título del aviso', 'oncallforms')) ?>
                     </label>
                     <input class="form-control" id="modal_title" name="modal_title" maxlength="160" required
                            value="<?= oncallforms_escape($config['modal_title']) ?>">
                 </div>
                 <div class="col-12">
                     <label class="form-label" for="modal_body">
-                        <?= oncallforms_escape(__('Message', 'oncallforms')) ?>
+                        <?= oncallforms_escape(__('Mensaje', 'oncallforms')) ?>
                     </label>
                     <textarea class="form-control" id="modal_body" name="modal_body" maxlength="2000" rows="4"
                               required><?= oncallforms_escape($config['modal_body']) ?></textarea>
                     <div class="form-hint">
                         <?= oncallforms_escape(
-                            __('Plain text only; HTML and scripts are removed.', 'oncallforms')
+                            __('Solo texto plano; se eliminan el HTML y los scripts.', 'oncallforms')
                         ) ?>
                     </div>
                 </div>
                 <?php foreach (
                     [
-                        'checkbox_text' => __('Checkbox text', 'oncallforms'),
-                        'oncall_button_text' => __('On-call button text', 'oncallforms'),
-                        'continue_button_text' => __('Continue button text', 'oncallforms'),
+                        'checkbox_text' => __('Texto de la casilla de aceptación', 'oncallforms'),
+                        'oncall_button_text' => __('Texto del botón de guardia', 'oncallforms'),
+                        'continue_button_text' => __('Texto del botón para continuar', 'oncallforms'),
                     ] as $field => $label
 ) : ?>
                     <div class="col-md-4">
@@ -175,13 +176,13 @@ Html::header(
                 <?php endforeach; ?>
             </div>
 
-            <h3><?= oncallforms_escape(__('Appearance', 'oncallforms')) ?></h3>
+            <h3><?= oncallforms_escape(__('Apariencia', 'oncallforms')) ?></h3>
             <div class="row g-3">
                 <?php foreach (
                     [
-                        'card_background' => __('Background color', 'oncallforms'),
-                        'card_border' => __('Border color', 'oncallforms'),
-                        'card_text' => __('Text color', 'oncallforms'),
+                        'card_background' => __('Color de fondo', 'oncallforms'),
+                        'card_border' => __('Color del borde', 'oncallforms'),
+                        'card_text' => __('Color del texto', 'oncallforms'),
                     ] as $field => $label
 ) : ?>
                     <div class="col-md-3">
@@ -195,7 +196,7 @@ Html::header(
                 <?php endforeach; ?>
                 <div class="col-md-3">
                     <label class="form-label" for="badge_text">
-                        <?= oncallforms_escape(__('Badge', 'oncallforms')) ?>
+                        <?= oncallforms_escape(__('Distintivo', 'oncallforms')) ?>
                     </label>
                     <input class="form-control" id="badge_text" name="badge_text" maxlength="60" required
                            value="<?= oncallforms_escape($config['badge_text']) ?>">
@@ -204,7 +205,7 @@ Html::header(
         </div>
         <div class="card-footer d-flex justify-content-end">
             <input type="hidden" name="_glpi_csrf_token" value="<?= oncallforms_escape(Session::getNewCSRFToken()) ?>">
-            <button class="btn btn-primary" type="submit"><?= oncallforms_escape(__('Save', 'oncallforms')) ?></button>
+            <button class="btn btn-primary" type="submit"><?= oncallforms_escape(__('Guardar', 'oncallforms')) ?></button>
         </div>
     </form>
 </div>

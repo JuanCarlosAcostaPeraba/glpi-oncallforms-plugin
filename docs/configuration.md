@@ -1,10 +1,10 @@
-# Configuration
+# Configuración
 
-Open **Setup > Plugins > On-call Forms > Configure** with a profile that has the GLPI `config` UPDATE right.
+Abra **Configuración > Plugins > Formularios de guardia > Configurar** con un perfil que tenga permiso para modificar la configuración de GLPI.
 
-1. Select the on-call form and normal incident form. Options show the native translated name and numeric ID.
-2. Choose one normal interval and one or more business days. The default is Monday-Friday, 08:00 inclusive to 15:00 exclusive.
-3. Keep the effective GLPI/PHP timezone or select an explicit IANA timezone.
-4. Edit the plain-text warning labels and the three safe `#RRGGBB` colors.
+1. Seleccione el formulario de guardia y el formulario normal de incidencias. Las opciones muestran el nombre nativo y su identificador numérico.
+2. Elija un intervalo normal y uno o más días laborables. El valor predeterminado es de lunes a viernes, desde las 08:00 incluidas hasta las 15:00 excluidas.
+3. Mantenga la zona horaria efectiva de GLPI/PHP o seleccione una zona horaria IANA explícita.
+4. Edite los textos planos del aviso y los tres colores seguros con formato `#RRGGBB`.
 
-The two forms must differ and must remain active, non-deleted, available in the current entity scope, and answerable by the current user. Configuration is global in 1.0.0; configure it from an entity where both forms are available.
+Los dos formularios deben ser diferentes y permanecer activos, sin eliminar, disponibles en el ámbito de la entidad actual y accesibles para el usuario actual. La configuración es global en la versión 1.0.1; configúrela desde una entidad donde estén disponibles ambos formularios.

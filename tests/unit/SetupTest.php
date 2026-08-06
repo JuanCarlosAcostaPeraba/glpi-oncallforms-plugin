@@ -25,4 +25,13 @@ final class SetupTest extends TestCase
         self::assertArrayNotHasKey('add_javascript', $GLOBALS['PLUGIN_HOOKS']);
         self::assertArrayNotHasKey('add_css', $GLOBALS['PLUGIN_HOOKS']);
     }
+
+    public function testConfigurationFormTargetsItsGlpi11PluginUrl(): void
+    {
+        $source = file_get_contents(dirname(__DIR__, 2) . '/front/config.form.php');
+
+        self::assertIsString($source);
+        self::assertStringContainsString('/plugins/oncallforms/front/config.form.php', $source);
+        self::assertStringNotContainsString("\$_SERVER['PHP_SELF']", $source);
+    }
 }

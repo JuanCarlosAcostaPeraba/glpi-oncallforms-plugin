@@ -4,6 +4,18 @@ All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-08-06
+
+### Corregido
+
+- El formulario de configuración envía y redirige a su URL explícita de plugin en GLPI 11.
+- La configuración inicial permite completar el estado previo a la activación.
+
+### Cambiado
+
+- Todos los textos visibles, mensajes de validación y valores predeterminados están en español.
+- Los valores predeterminados ingleses de instalaciones previas se muestran en español sin sobrescribir personalizaciones.
+
 ## [1.0.0] - 2026-08-06
 
 ### Added

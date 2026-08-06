@@ -32,7 +32,7 @@ final class FormResolver
         if ($this->resolveAccessible($id) === null) {
             throw new InvalidArgumentException(
                 __(
-                    'The selected form does not exist, is inactive, deleted, or is outside your allowed scope.',
+                    'El formulario seleccionado no existe, está inactivo, eliminado o fuera del ámbito permitido.',
                     'oncallforms'
                 )
             );

@@ -1,4 +1,4 @@
-# On-call Forms for GLPI 11
+# Formularios de guardia para GLPI 11
 
 On-call Forms adapts two GLPI 11 native forms to a business/on-call schedule without modifying GLPI core. It hides the on-call card during normal hours, visually distinguishes it during on-call hours, and shows an accessible acknowledgement modal before a user continues to the normal incident form outside business hours.
 
@@ -17,7 +17,7 @@ No fabricated screenshots are included.
 - Configurable forms, weekdays, one daily interval, IANA timezone, message labels, badge, and safe colors.
 - Bootstrap/Tabler-compatible accessible modal with explicit acknowledgement.
 - Global configuration protected by GLPI permissions and CSRF.
-- English source strings and a Spanish gettext catalog source.
+- Textos originales en español; los catálogos de localización se añadirán más adelante.
 
 ## Requirements
 
@@ -29,7 +29,7 @@ No fabricated screenshots are included.
 
 1. Download a release archive and extract its root `oncallforms` directory into `GLPI_ROOT/plugins/`.
 2. In GLPI, open **Setup > Plugins**.
-3. Install and activate **On-call Forms**.
+3. Install and activate **Formularios de guardia**.
 4. Open its configuration page and select both forms.
 
 No Composer command or external service is required in production.
@@ -54,7 +54,7 @@ The default interval is Monday-Friday, `08:00-15:00` in the configured/effective
 
 ## Configuration
 
-See [docs/configuration.md](docs/configuration.md). Version 1.0.0 stores one global configuration. The form selector shows only active, non-deleted native forms allowed by GLPI's current entity and access policies.
+See [docs/configuration.md](docs/configuration.md). Version 1.0.1 stores one global configuration. The form selector shows only active, non-deleted native forms allowed by GLPI's current entity and access policies.
 
 ## Security
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Glpi\Plugin\Hooks;
 
-define('PLUGIN_ONCALLFORMS_VERSION', '1.0.0');
+define('PLUGIN_ONCALLFORMS_VERSION', '1.0.1');
 define('PLUGIN_ONCALLFORMS_MIN_GLPI', '11.0.0');
 define('PLUGIN_ONCALLFORMS_MAX_GLPI', '12.0.0');
 define('PLUGIN_ONCALLFORMS_MIN_PHP', '8.2.0');
@@ -52,7 +52,7 @@ function plugin_init_oncallforms(): void
 function plugin_version_oncallforms(): array
 {
     return [
-        'name' => __('On-call Forms', 'oncallforms'),
+        'name' => __('Formularios de guardia', 'oncallforms'),
         'version' => PLUGIN_ONCALLFORMS_VERSION,
         'author' => 'Juan Carlos Acosta Peraba',
         'license' => 'GPL-3.0-or-later',
@@ -70,7 +70,7 @@ function plugin_version_oncallforms(): array
 function plugin_oncallforms_check_prerequisites(): bool
 {
     if (version_compare(PHP_VERSION, PLUGIN_ONCALLFORMS_MIN_PHP, '<')) {
-        echo sprintf('On-call Forms requires PHP %s or newer.', PLUGIN_ONCALLFORMS_MIN_PHP);
+        echo sprintf('Formularios de guardia requiere PHP %s o posterior.', PLUGIN_ONCALLFORMS_MIN_PHP);
         return false;
     }
 
@@ -97,7 +97,7 @@ function plugin_oncallforms_check_config(bool $verbose = false): bool
     $valid = $config['oncall_form_id'] > 0 && $config['normal_form_id'] > 0;
 
     if ($verbose && !$valid) {
-        echo __('Select the on-call and normal forms in the plugin configuration.', 'oncallforms');
+        echo __('Seleccione los formularios de guardia y normal en la configuración del plugin.', 'oncallforms');
     }
 
     return $valid;

@@ -18,17 +18,17 @@ final readonly class Schedule
         private array $businessDays,
         private DateTimeZone $timezone,
     ) {
-        self::assertTime($start, 'start');
-        self::assertTime($end, 'end');
+        self::assertTime($start, 'inicio');
+        self::assertTime($end, 'fin');
         if ($start >= $end) {
-            throw new InvalidArgumentException('The start time must be before the end time.');
+            throw new InvalidArgumentException('La hora de inicio debe ser anterior a la hora de fin.');
         }
         if ($businessDays === []) {
-            throw new InvalidArgumentException('At least one business day is required.');
+            throw new InvalidArgumentException('Se requiere al menos un día laborable.');
         }
         foreach ($businessDays as $day) {
             if ($day < 1 || $day > 7) {
-                throw new InvalidArgumentException('Business days must use ISO values from 1 to 7.');
+                throw new InvalidArgumentException('Los días laborables deben usar valores ISO del 1 al 7.');
             }
         }
     }
@@ -57,7 +57,7 @@ final readonly class Schedule
     private static function assertTime(string $time, string $field): void
     {
         if (!preg_match('/^(?:[01]\d|2[0-3]):[0-5]\d$/D', $time)) {
-            throw new InvalidArgumentException(sprintf('Invalid %s time.', $field));
+            throw new InvalidArgumentException(sprintf('La hora de %s no es válida.', $field));
         }
     }
 }

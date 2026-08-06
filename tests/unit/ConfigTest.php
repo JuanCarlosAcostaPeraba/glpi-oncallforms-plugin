@@ -11,6 +11,14 @@ use PHPUnit\Framework\TestCase;
 
 final class ConfigTest extends TestCase
 {
+    public function testUsesSpanishDefaultTexts(): void
+    {
+        self::assertSame('Fuera del horario laboral habitual', Config::DEFAULTS['modal_title']);
+        self::assertSame('He leído y acepto las condiciones.', Config::DEFAULTS['checkbox_text']);
+        self::assertSame('Ir al formulario de guardia', Config::DEFAULTS['oncall_button_text']);
+        self::assertSame('Continuar al formulario normal', Config::DEFAULTS['continue_button_text']);
+    }
+
     public function testNormalizesSafeConfiguration(): void
     {
         $result = Config::normalize($this->validInput());

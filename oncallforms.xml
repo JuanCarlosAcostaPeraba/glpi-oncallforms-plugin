@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-  <name>On-call Forms</name>
+  <name>Formularios de guardia</name>
   <key>oncallforms</key>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <license>GPL-3.0-or-later</license>
   <homepage>https://github.com/JuanCarlosAcostaPeraba/glpi-oncallforms-plugin</homepage>
   <authors>

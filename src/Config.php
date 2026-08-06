@@ -19,12 +19,12 @@ final class Config
         'business_end' => '15:00',
         'business_days' => '[1,2,3,4,5]',
         'timezone' => '',
-        'modal_title' => 'Outside normal business hours',
-        'modal_body' => 'You are accessing the normal incident form outside normal business hours. '
-            . 'Use the on-call form for urgent requests.',
-        'checkbox_text' => 'I have read and accept the conditions.',
-        'oncall_button_text' => 'Go to the on-call form',
-        'continue_button_text' => 'Continue to the normal form',
+        'modal_title' => 'Fuera del horario laboral habitual',
+        'modal_body' => 'Está accediendo al formulario normal de incidencias fuera del horario laboral habitual. '
+            . 'Utilice el formulario de guardia para solicitudes urgentes.',
+        'checkbox_text' => 'He leído y acepto las condiciones.',
+        'oncall_button_text' => 'Ir al formulario de guardia',
+        'continue_button_text' => 'Continuar al formulario normal',
         'card_background' => '#FFF3CD',
         'card_border' => '#FFB300',
         'card_text' => '#3D2E00',
@@ -37,6 +37,20 @@ final class Config
         $raw = self::DEFAULTS;
         if (class_exists(\Config::class)) {
             $raw = array_replace($raw, \Config::getConfigurationValues(self::CONTEXT));
+        }
+
+        $legacyDefaults = [
+            'modal_title' => 'Outside normal business hours',
+            'modal_body' => 'You are accessing the normal incident form outside normal business hours. '
+                . 'Use the on-call form for urgent requests.',
+            'checkbox_text' => 'I have read and accept the conditions.',
+            'oncall_button_text' => 'Go to the on-call form',
+            'continue_button_text' => 'Continue to the normal form',
+        ];
+        foreach ($legacyDefaults as $key => $legacyValue) {
+            if ($raw[$key] === $legacyValue) {
+                $raw[$key] = self::DEFAULTS[$key];
+            }
         }
 
         $days = json_decode((string) $raw['business_days'], true);
@@ -81,7 +95,7 @@ final class Config
         $resolver->assertSelectable((int) $values['oncall_form_id']);
         $resolver->assertSelectable((int) $values['normal_form_id']);
         if ($values['oncall_form_id'] === $values['normal_form_id']) {
-            throw new InvalidArgumentException(__('The two forms must be different.', 'oncallforms'));
+            throw new InvalidArgumentException(__('Los dos formularios deben ser diferentes.', 'oncallforms'));
         }
 
         \Config::setConfigurationValues(self::CONTEXT, $values);
@@ -93,23 +107,23 @@ final class Config
         $oncallId = self::positiveId($input['oncall_form_id'] ?? null);
         $normalId = self::positiveId($input['normal_form_id'] ?? null);
         if ($oncallId === $normalId) {
-            throw new InvalidArgumentException(__('The two forms must be different.', 'oncallforms'));
+            throw new InvalidArgumentException(__('Los dos formularios deben ser diferentes.', 'oncallforms'));
         }
         $start = self::time($input['business_start'] ?? null);
         $end = self::time($input['business_end'] ?? null);
         if ($start >= $end) {
-            throw new InvalidArgumentException(__('The start time must be before the end time.', 'oncallforms'));
+            throw new InvalidArgumentException(__('La hora de inicio debe ser anterior a la hora de fin.', 'oncallforms'));
         }
 
         $days = array_values(array_unique(array_map('intval', (array) ($input['business_days'] ?? []))));
         sort($days);
         if ($days === [] || array_diff($days, range(1, 7)) !== []) {
-            throw new InvalidArgumentException(__('Select at least one valid business day.', 'oncallforms'));
+            throw new InvalidArgumentException(__('Seleccione al menos un día laborable válido.', 'oncallforms'));
         }
 
         $timezone = (string) ($input['timezone'] ?? '');
         if (!in_array($timezone, DateTimeZone::listIdentifiers(), true)) {
-            throw new InvalidArgumentException(__('Select a valid time zone.', 'oncallforms'));
+            throw new InvalidArgumentException(__('Seleccione una zona horaria válida.', 'oncallforms'));
         }
 
         return [
@@ -135,7 +149,7 @@ final class Config
     private static function positiveId($value): int
     {
         if (!is_scalar($value) || !preg_match('/^[1-9]\d*$/D', (string) $value)) {
-            throw new InvalidArgumentException(__('Select a valid form.', 'oncallforms'));
+            throw new InvalidArgumentException(__('Seleccione un formulario válido.', 'oncallforms'));
         }
         return (int) $value;
     }
@@ -145,7 +159,7 @@ final class Config
     {
         $time = is_scalar($value) ? (string) $value : '';
         if (!preg_match('/^(?:[01]\d|2[0-3]):[0-5]\d$/D', $time)) {
-            throw new InvalidArgumentException(__('Enter a valid time in HH:MM format.', 'oncallforms'));
+            throw new InvalidArgumentException(__('Introduzca una hora válida con el formato HH:MM.', 'oncallforms'));
         }
         return $time;
     }
@@ -155,7 +169,7 @@ final class Config
     {
         $color = is_scalar($value) ? strtoupper((string) $value) : '';
         if (!preg_match('/^#[0-9A-F]{6}$/D', $color)) {
-            throw new InvalidArgumentException(__('Colors must use the #RRGGBB format.', 'oncallforms'));
+            throw new InvalidArgumentException(__('Los colores deben usar el formato #RRGGBB.', 'oncallforms'));
         }
         return $color;
     }
@@ -167,7 +181,7 @@ final class Config
         // Byte length is deliberately conservative and avoids relying on an
         // optional PHP extension for a security boundary.
         if ($text === '' || strlen($text) > $maxLength) {
-            throw new InvalidArgumentException(__('A required text is empty or too long.', 'oncallforms'));
+            throw new InvalidArgumentException(__('Un texto obligatorio está vacío o es demasiado largo.', 'oncallforms'));
         }
         return $text;
     }
