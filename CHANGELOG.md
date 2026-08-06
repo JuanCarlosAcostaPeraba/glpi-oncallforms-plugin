@@ -4,6 +4,12 @@ All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-08-06
+
+### Corregido
+
+- La URL de configuración usa el generador oficial de GLPI 11 y no depende de una variable global en el ámbito del script.
+
 ## [1.0.1] - 2026-08-06
 
 ### Corregido

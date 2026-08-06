@@ -12,7 +12,7 @@ include GLPI_ROOT . '/inc/includes.php';
 
 Session::checkRight('config', UPDATE);
 
-$configUrl = rtrim((string) $CFG_GLPI['root_doc'], '/') . '/plugins/oncallforms/front/config.form.php';
+$configUrl = Html::getPrefixedUrl('/plugins/oncallforms/front/config.form.php');
 $resolver = new FormResolver();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     Session::checkRight('config', UPDATE);

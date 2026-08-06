@@ -34,6 +34,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: bash tools/package.sh
-      - run: test -f build/oncallforms-1.0.1.zip
-      - run: unzip -l build/oncallforms-1.0.1.zip | grep 'oncallforms/setup.php'
-      - run: '! unzip -l build/oncallforms-1.0.1.zip | grep -E "(^|/)tests/|(^|/)vendor/|\.git"'
+      - run: test -f build/oncallforms-1.0.2.zip
+      - run: unzip -l build/oncallforms-1.0.2.zip | grep 'oncallforms/setup.php'
+      - run: '! unzip -l build/oncallforms-1.0.2.zip | grep -E "(^|/)tests/|(^|/)vendor/|\.git"'

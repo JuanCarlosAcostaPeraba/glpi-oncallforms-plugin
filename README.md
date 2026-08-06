@@ -54,7 +54,7 @@ The default interval is Monday-Friday, `08:00-15:00` in the configured/effective
 
 ## Configuration
 
-See [docs/configuration.md](docs/configuration.md). Version 1.0.1 stores one global configuration. The form selector shows only active, non-deleted native forms allowed by GLPI's current entity and access policies.
+See [docs/configuration.md](docs/configuration.md). Version 1.0.2 stores one global configuration. The form selector shows only active, non-deleted native forms allowed by GLPI's current entity and access policies.
 
 ## Security
 

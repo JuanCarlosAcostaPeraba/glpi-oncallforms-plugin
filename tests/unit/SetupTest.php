@@ -32,6 +32,8 @@ final class SetupTest extends TestCase
 
         self::assertIsString($source);
         self::assertStringContainsString('/plugins/oncallforms/front/config.form.php', $source);
+        self::assertStringContainsString('Html::getPrefixedUrl', $source);
+        self::assertStringNotContainsString('$CFG_GLPI', $source);
         self::assertStringNotContainsString("\$_SERVER['PHP_SELF']", $source);
     }
 }
