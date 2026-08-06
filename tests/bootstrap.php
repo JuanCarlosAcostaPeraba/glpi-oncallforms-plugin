@@ -5,15 +5,7 @@ declare(strict_types=1);
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 if (!class_exists('Plugin')) {
-    final class Plugin
-    {
-        public static bool $active = false;
-
-        public static function isPluginActive(string $plugin): bool
-        {
-            return self::$active;
-        }
-    }
+    class_alias(GlpiPlugin\Oncallforms\Tests\Support\PluginStub::class, 'Plugin');
 }
 
 if (!function_exists('__')) {
