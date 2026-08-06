@@ -8,6 +8,10 @@ if (!class_exists('Plugin')) {
     class_alias(GlpiPlugin\Oncallforms\Tests\Support\PluginStub::class, 'Plugin');
 }
 
+if (!class_exists('Config')) {
+    class_alias(GlpiPlugin\Oncallforms\Tests\Support\CoreConfigStub::class, 'Config');
+}
+
 if (!function_exists('__')) {
     function __(string $message, ?string $domain = null): string
     {

@@ -7,4 +7,4 @@ Abra **Configuración > Plugins > Formularios de guardia > Configurar** con un p
 3. Mantenga la zona horaria efectiva de GLPI/PHP o seleccione una zona horaria IANA explícita.
 4. Edite los textos planos del aviso y los tres colores seguros con formato `#RRGGBB`.
 
-Los dos formularios deben ser diferentes y permanecer activos, sin eliminar, disponibles en el ámbito de la entidad actual y accesibles para el usuario actual. La configuración es global en la versión 1.0.3; configúrela desde una entidad donde estén disponibles ambos formularios.
+Los dos formularios deben ser diferentes y permanecer activos, sin eliminar, disponibles en el ámbito de la entidad actual y accesibles para el usuario actual. La configuración es global en la versión 1.0.4; configúrela desde una entidad donde estén disponibles ambos formularios.

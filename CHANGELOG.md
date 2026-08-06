@@ -4,6 +4,12 @@ All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-08-06
+
+### Corregido
+
+- La comprobación de configuración ya no carga clases del plugin antes de que GLPI registre su autoloader, evitando el error 500 al activarlo.
+
 ## [1.0.3] - 2026-08-06
 
 ### Corregido

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Glpi\Plugin\Hooks;
 
-define('PLUGIN_ONCALLFORMS_VERSION', '1.0.3');
+define('PLUGIN_ONCALLFORMS_VERSION', '1.0.4');
 define('PLUGIN_ONCALLFORMS_MIN_GLPI', '11.0.0');
 define('PLUGIN_ONCALLFORMS_MAX_GLPI', '12.0.0');
 define('PLUGIN_ONCALLFORMS_MIN_PHP', '8.2.0');
@@ -93,8 +93,11 @@ function plugin_oncallforms_check_prerequisites(): bool
 
 function plugin_oncallforms_check_config(bool $verbose = false): bool
 {
-    $config = GlpiPlugin\Oncallforms\Config::get();
-    $valid = $config['oncall_form_id'] > 0 && $config['normal_form_id'] > 0;
+    // GLPI checks the plugin state before registering the plugin autoloader.
+    // Only core classes may be used from this callback.
+    $config = \Config::getConfigurationValues('plugin:oncallforms');
+    $valid = (int) ($config['oncall_form_id'] ?? 0) > 0
+        && (int) ($config['normal_form_id'] ?? 0) > 0;
 
     if ($verbose && !$valid) {
         echo __('Seleccione los formularios de guardia y normal en la configuración del plugin.', 'oncallforms');

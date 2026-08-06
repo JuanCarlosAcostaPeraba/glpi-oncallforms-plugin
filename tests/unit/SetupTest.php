@@ -12,6 +12,7 @@ final class SetupTest extends TestCase
     {
         $GLOBALS['PLUGIN_HOOKS'] = [];
         \Plugin::$active = false;
+        \Config::$values = [];
     }
 
     public function testRegistersConfigurationPageWhilePluginIsInactive(): void
@@ -37,5 +38,19 @@ final class SetupTest extends TestCase
         self::assertStringNotContainsString('Session::checkCSRF', $source);
         self::assertStringNotContainsString('$CFG_GLPI', $source);
         self::assertStringNotContainsString("\$_SERVER['PHP_SELF']", $source);
+    }
+
+    public function testChecksConfigurationUsingOnlyGlpiCoreClasses(): void
+    {
+        \Config::$values['plugin:oncallforms'] = [
+            'oncall_form_id' => '12',
+            'normal_form_id' => '34',
+        ];
+
+        self::assertTrue(\plugin_oncallforms_check_config());
+
+        \Config::$values['plugin:oncallforms']['normal_form_id'] = '0';
+
+        self::assertFalse(\plugin_oncallforms_check_config());
     }
 }
