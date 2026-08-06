@@ -4,6 +4,13 @@ All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-08-06
+
+### Cambiado
+
+- El aviso fuera de horario se muestra al abrir la categoría configurada del catálogo de servicios.
+- La configuración usa el ID de categoría del catálogo en lugar de un formulario normal concreto.
+
 ## [1.0.4] - 2026-08-06
 
 ### Corregido

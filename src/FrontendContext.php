@@ -6,7 +6,6 @@ namespace GlpiPlugin\Oncallforms;
 
 use DateTimeImmutable;
 use DateTimeZone;
-use Html;
 use JsonException;
 
 final readonly class FrontendContext
@@ -19,7 +18,7 @@ final readonly class FrontendContext
     public static function fromCurrentRequest(): self
     {
         $config = Config::get();
-        $path = parse_url((string) ($_SERVER['REQUEST_URI'] ?? ''), PHP_URL_PATH) ?: '';
+        $requestUri = (string) ($_SERVER['REQUEST_URI'] ?? '');
         $schedule = new Schedule(
             $config['business_start'],
             $config['business_end'],
@@ -27,28 +26,26 @@ final readonly class FrontendContext
             new DateTimeZone($config['timezone']),
         );
         $isOnCall = $schedule->isOnCall(new DateTimeImmutable('now', $schedule->getTimezone()));
-        $normalId = self::renderedFormId($path);
-        $isCatalog = preg_match('~/ServiceCatalog(?:/|$)~', $path) === 1;
-        $needsOncallForm = $isCatalog || ($isOnCall && $normalId === $config['normal_form_id']);
-        $oncall = $needsOncallForm
+        $requestedCategoryId = ServiceCatalogRequest::categoryId($requestUri);
+        $isTargetCategory = $requestedCategoryId === $config['catalog_category_id'];
+        $oncall = $isTargetCategory
             ? (new FormResolver())->resolveAccessible($config['oncall_form_id'])
             : null;
 
         $data = [
             'catalog' => [
-                'enabled' => $isCatalog && $oncall !== null,
+                'enabled' => $isTargetCategory && $oncall !== null,
                 'formId' => $oncall?->getID(),
                 'hidden' => !$isOnCall,
             ],
             'warning' => [
-                'enabled' => $isOnCall && $normalId === $config['normal_form_id'] && $oncall !== null,
+                'enabled' => $isOnCall && $isTargetCategory && $oncall !== null,
                 'title' => __($config['modal_title'], 'oncallforms'),
                 'body' => __($config['modal_body'], 'oncallforms'),
                 'checkbox' => __($config['checkbox_text'], 'oncallforms'),
                 'oncallButton' => __($config['oncall_button_text'], 'oncallforms'),
                 'continueButton' => __($config['continue_button_text'], 'oncallforms'),
                 'oncallUrl' => $oncall?->getServiceCatalogLink(),
-                'cancelUrl' => Html::getPrefixedUrl('/ServiceCatalog'),
             ],
             'appearance' => [
                 'background' => $config['card_background'],
@@ -77,13 +74,5 @@ final readonly class FrontendContext
         } catch (JsonException) {
             return '{}';
         }
-    }
-
-    private static function renderedFormId(string $path): ?int
-    {
-        if (preg_match('~/Form/Render/(\d+)(?:/|$)~', $path, $matches) !== 1) {
-            return null;
-        }
-        return (int) $matches[1];
     }
 }

@@ -14,17 +14,17 @@ final class Config
     /** @var array<string, string> */
     public const DEFAULTS = [
         'oncall_form_id' => '0',
-        'normal_form_id' => '0',
+        'catalog_category_id' => '27',
         'business_start' => '08:00',
         'business_end' => '15:00',
         'business_days' => '[1,2,3,4,5]',
         'timezone' => '',
         'modal_title' => 'Fuera del horario laboral habitual',
-        'modal_body' => 'Está accediendo al formulario normal de incidencias fuera del horario laboral habitual. '
+        'modal_body' => 'Está accediendo al catálogo de incidencias fuera del horario laboral habitual. '
             . 'Utilice el formulario de guardia para solicitudes urgentes.',
         'checkbox_text' => 'He leído y acepto las condiciones.',
         'oncall_button_text' => 'Ir al formulario de guardia',
-        'continue_button_text' => 'Continuar al formulario normal',
+        'continue_button_text' => 'Continuar en el catálogo',
         'card_background' => '#FFF3CD',
         'card_border' => '#FFB300',
         'card_text' => '#3D2E00',
@@ -53,6 +53,17 @@ final class Config
             }
         }
 
+        $supersededDefaults = [
+            'modal_body' => 'Está accediendo al formulario normal de incidencias fuera del horario laboral habitual. '
+                . 'Utilice el formulario de guardia para solicitudes urgentes.',
+            'continue_button_text' => 'Continuar al formulario normal',
+        ];
+        foreach ($supersededDefaults as $key => $supersededValue) {
+            if ($raw[$key] === $supersededValue) {
+                $raw[$key] = self::DEFAULTS[$key];
+            }
+        }
+
         $days = json_decode((string) $raw['business_days'], true);
         if (!is_array($days) || $days === []) {
             $days = [1, 2, 3, 4, 5];
@@ -65,7 +76,7 @@ final class Config
 
         return [
             'oncall_form_id' => max(0, (int) $raw['oncall_form_id']),
-            'normal_form_id' => max(0, (int) $raw['normal_form_id']),
+            'catalog_category_id' => max(0, (int) $raw['catalog_category_id']),
             'business_start' => (string) $raw['business_start'],
             'business_end' => (string) $raw['business_end'],
             'business_days' => array_values(array_unique(array_map('intval', $days))),
@@ -93,10 +104,6 @@ final class Config
     {
         $values = self::normalize($input);
         $resolver->assertSelectable((int) $values['oncall_form_id']);
-        $resolver->assertSelectable((int) $values['normal_form_id']);
-        if ($values['oncall_form_id'] === $values['normal_form_id']) {
-            throw new InvalidArgumentException(__('Los dos formularios deben ser diferentes.', 'oncallforms'));
-        }
 
         \Config::setConfigurationValues(self::CONTEXT, $values);
     }
@@ -104,11 +111,14 @@ final class Config
     /** @param array<string, mixed> $input @return array<string, string> */
     public static function normalize(array $input): array
     {
-        $oncallId = self::positiveId($input['oncall_form_id'] ?? null);
-        $normalId = self::positiveId($input['normal_form_id'] ?? null);
-        if ($oncallId === $normalId) {
-            throw new InvalidArgumentException(__('Los dos formularios deben ser diferentes.', 'oncallforms'));
-        }
+        $oncallId = self::positiveId(
+            $input['oncall_form_id'] ?? null,
+            __('Seleccione un formulario de guardia válido.', 'oncallforms')
+        );
+        $categoryId = self::positiveId(
+            $input['catalog_category_id'] ?? null,
+            __('Introduzca una categoría del catálogo válida.', 'oncallforms')
+        );
         $start = self::time($input['business_start'] ?? null);
         $end = self::time($input['business_end'] ?? null);
         if ($start >= $end) {
@@ -130,7 +140,7 @@ final class Config
 
         return [
             'oncall_form_id' => (string) $oncallId,
-            'normal_form_id' => (string) $normalId,
+            'catalog_category_id' => (string) $categoryId,
             'business_start' => $start,
             'business_end' => $end,
             'business_days' => json_encode($days, JSON_THROW_ON_ERROR),
@@ -148,10 +158,10 @@ final class Config
     }
 
     /** @param mixed $value */
-    private static function positiveId($value): int
+    private static function positiveId($value, string $errorMessage): int
     {
         if (!is_scalar($value) || !preg_match('/^[1-9]\d*$/D', (string) $value)) {
-            throw new InvalidArgumentException(__('Seleccione un formulario válido.', 'oncallforms'));
+            throw new InvalidArgumentException($errorMessage);
         }
         return (int) $value;
     }

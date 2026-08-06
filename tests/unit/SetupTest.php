@@ -44,12 +44,12 @@ final class SetupTest extends TestCase
     {
         \Config::$values['plugin:oncallforms'] = [
             'oncall_form_id' => '12',
-            'normal_form_id' => '34',
+            'catalog_category_id' => '27',
         ];
 
         self::assertTrue(\plugin_oncallforms_check_config());
 
-        \Config::$values['plugin:oncallforms']['normal_form_id'] = '0';
+        \Config::$values['plugin:oncallforms']['catalog_category_id'] = '0';
 
         self::assertFalse(\plugin_oncallforms_check_config());
     }

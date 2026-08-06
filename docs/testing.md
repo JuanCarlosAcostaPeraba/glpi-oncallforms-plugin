@@ -20,7 +20,7 @@ Run against a disposable GLPI 11 instance with two active native forms in the sa
 - Try a nonexistent, deleted, inactive, inaccessible, and cross-entity form ID by tampering with POST data.
 - Verify Monday 08:00 hides only the on-call card; Monday 15:00 and weekends show and style only that card.
 - Filter, sort, paginate, and enter categories; verify AJAX refreshes preserve the rule.
-- Open `/Form/Render/{normal-id}` during on-call time. Check static backdrop, Escape, focus, Tab/Shift+Tab, Space on the checkbox, disabled Continue, enabled Continue after acceptance, and the on-call link.
+- Open `/ServiceCatalog?category={configured-id}` during on-call time. Check static backdrop, Escape, focus, Tab/Shift+Tab, Space on the checkbox, disabled Continue, enabled Continue after acceptance, and the on-call link.
 - Open the same form during business time and other GLPI pages; verify no modal appears.
 - Disable JavaScript and confirm native GLPI permissions still apply. The documented catalog presentation rule will not apply.
 - Deactivate the plugin and verify native catalog and renderer behavior return immediately.

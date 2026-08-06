@@ -15,26 +15,26 @@ The implementation was checked against `glpi-project/glpi`, branch `11.0/bugfixe
 
 `Config` stores global values in GLPI's `glpi_configs` through `Config::getConfigurationValues()` and `Config::setConfigurationValues()` under `plugin:oncallforms`. `Schedule` contains the only time decision. `FormResolver` reuses the official native form provider. `FrontendContext` converts server-side decisions into a minimal JSON meta tag. The JavaScript only renders those decisions.
 
-The context is request-scoped. On catalog requests it contains the accessible on-call form ID, whether its card must be hidden, and validated colors/text. On the configured normal form route it contains the warning data only when the server-side schedule says the current instant is on-call time.
+The context is request-scoped. On the configured catalog category it contains the accessible on-call form ID, whether its card must be hidden, and validated colors/text. It also contains the warning data only when the server-side schedule says the current instant is on-call time.
 
 ## Catalog limitation
 
 GLPI 11 has no public hook to remove an item from the built-in `FormProvider`, and `ServiceCatalogManager` is final. Replacing internal services would be more fragile than a narrow DOM adapter. The plugin therefore finds only links whose normalized pathname ends with `/Form/Render/{validated-id}`. It never matches display text, order, or generic card classes alone. A `MutationObserver` reapplies the rule after catalog filtering, category navigation, sorting, and pagination.
 
-This is presentation control. A user who disables JavaScript can still see the card, and direct access remains allowed by design in 1.0.4. GLPI remains responsible for all form permissions.
+This is presentation control. A user who disables JavaScript can still see the card, and direct access remains allowed by design in 1.0.5. GLPI remains responsible for all form permissions.
 
 ## Access warning
 
-PHP extracts the actual ID from the `/Form/Render/{id}` path and compares it with the configured integer. Query parameters and browser storage are ignored. The modal uses GLPI's bundled Bootstrap implementation with a static backdrop, Escape disabled, no close button, initial focus on the acceptance checkbox, and a disabled Continue button. Acceptance exists only in the current DOM and is not audited.
+PHP accepts a positive integer from the `category` query parameter only on `/ServiceCatalog` and compares it with the configured category ID. The modal uses GLPI's bundled Bootstrap implementation with a static backdrop, Escape disabled, no close button, initial focus on the acceptance checkbox, and a disabled Continue button. Acceptance exists only in the current DOM and is not audited.
 
 ## Configuration scope
 
-Configuration is global in 1.0.4. A form can only be selected when it is active, non-deleted, visible in the administrator's active entity scope, and answerable under native access policies. This avoids pretending to implement entity inheritance. Administrators must configure from an entity scope in which both target forms are available.
+Configuration is global in 1.0.5. The warning is triggered by the configured `category` query parameter on `/ServiceCatalog`. The on-call form can only be selected when it is active, non-deleted, visible in the administrator's active entity scope, and answerable under native access policies.
 
 ## Security boundaries
 
 - GLPI `config` UPDATE right is checked on both GET and POST.
-- POST performs an explicit CSRF check in addition to declaring the plugin CSRF-compliant.
+- POST relies on GLPI 11's central CSRF validation for legacy plugin endpoints and declares the plugin CSRF-compliant.
 - IDs, time values, days, timezone identifiers, message lengths, and colors are allow-list validated.
 - Configurable text is stored and emitted as plain text. The frontend creates nodes with `textContent`.
 - No SQL is concatenated. Uninstall deletes only the plugin configuration context.

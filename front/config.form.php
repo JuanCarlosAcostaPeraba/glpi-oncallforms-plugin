@@ -57,7 +57,7 @@ Html::header(
             <h2 class="card-title"><?= oncallforms_escape(__('Formularios de guardia', 'oncallforms')) ?></h2>
         </div>
         <div class="card-body">
-            <h3><?= oncallforms_escape(__('Formularios', 'oncallforms')) ?></h3>
+            <h3><?= oncallforms_escape(__('Catálogo y formulario de guardia', 'oncallforms')) ?></h3>
             <div class="row g-3 mb-4">
                 <div class="col-md-6">
                     <label class="form-label" for="dropdown_oncall_form_id0">
@@ -72,16 +72,17 @@ Html::header(
                     ]); ?>
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label" for="dropdown_normal_form_id0">
-                        <?= oncallforms_escape(__('Formulario normal de incidencias', 'oncallforms')) ?>
+                    <label class="form-label" for="catalog_category_id">
+                        <?= oncallforms_escape(__('ID de la categoría del catálogo', 'oncallforms')) ?>
                     </label>
-                    <?php Dropdown::showFromArray('normal_form_id', $forms, [
-                        'value' => $config['normal_form_id'],
-                        'display_emptychoice' => true,
-                        'width' => '100%',
-                        'rand' => 0,
-                        'aria_label' => __('Formulario normal de incidencias', 'oncallforms'),
-                    ]); ?>
+                    <input class="form-control" id="catalog_category_id" name="catalog_category_id"
+                           type="number" min="1" required
+                           value="<?= oncallforms_escape($config['catalog_category_id']) ?>">
+                    <div class="form-hint">
+                        <?= oncallforms_escape(
+                            __('Es el valor category de la URL del catálogo; por ejemplo, 27.', 'oncallforms')
+                        ) ?>
+                    </div>
                 </div>
             </div>
 

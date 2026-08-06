@@ -16,7 +16,7 @@ final class ConfigTest extends TestCase
         self::assertSame('Fuera del horario laboral habitual', Config::DEFAULTS['modal_title']);
         self::assertSame('He leído y acepto las condiciones.', Config::DEFAULTS['checkbox_text']);
         self::assertSame('Ir al formulario de guardia', Config::DEFAULTS['oncall_button_text']);
-        self::assertSame('Continuar al formulario normal', Config::DEFAULTS['continue_button_text']);
+        self::assertSame('Continuar en el catálogo', Config::DEFAULTS['continue_button_text']);
     }
 
     public function testNormalizesSafeConfiguration(): void
@@ -24,7 +24,7 @@ final class ConfigTest extends TestCase
         $result = Config::normalize($this->validInput());
 
         self::assertSame('27', $result['oncall_form_id']);
-        self::assertSame('12', $result['normal_form_id']);
+        self::assertSame('27', $result['catalog_category_id']);
         self::assertSame('[1,2,3,4,5]', $result['business_days']);
         self::assertSame('#AABBCC', $result['card_background']);
         self::assertSame('Text only', $result['modal_body']);
@@ -42,8 +42,8 @@ final class ConfigTest extends TestCase
     public static function invalidInputs(): iterable
     {
         yield 'non integer form' => [['oncall_form_id' => '1 OR 1=1']];
-        yield 'zero form' => [['normal_form_id' => '0']];
-        yield 'same forms' => [['normal_form_id' => '27']];
+        yield 'zero category' => [['catalog_category_id' => '0']];
+        yield 'invalid category' => [['catalog_category_id' => '27 OR 1=1']];
         yield 'invalid time' => [['business_start' => '8am']];
         yield 'reversed interval' => [['business_start' => '16:00']];
         yield 'empty days' => [['business_days' => []]];
@@ -59,7 +59,7 @@ final class ConfigTest extends TestCase
     {
         return [
             'oncall_form_id' => '27',
-            'normal_form_id' => '12',
+            'catalog_category_id' => '27',
             'business_start' => '08:00',
             'business_end' => '15:00',
             'business_days' => ['5', '1', '2', '3', '4', '1'],
