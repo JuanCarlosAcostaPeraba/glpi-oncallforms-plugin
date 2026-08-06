@@ -14,12 +14,11 @@ function plugin_init_oncallforms(): void
     global $PLUGIN_HOOKS;
 
     $PLUGIN_HOOKS['csrf_compliant']['oncallforms'] = true;
+    $PLUGIN_HOOKS['config_page']['oncallforms'] = 'front/config.form.php';
 
     if (!Plugin::isPluginActive('oncallforms')) {
         return;
     }
-
-    $PLUGIN_HOOKS['config_page']['oncallforms'] = 'front/config.form.php';
 
     try {
         $context = GlpiPlugin\Oncallforms\FrontendContext::fromCurrentRequest();
