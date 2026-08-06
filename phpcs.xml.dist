@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<ruleset name="On-call Forms">
+    <description>PSR-12 checks for the PHP implementation.</description>
+    <file>setup.php</file>
+    <file>hook.php</file>
+    <file>src</file>
+    <file>front</file>
+    <file>tests</file>
+    <exclude-pattern>vendor/*</exclude-pattern>
+    <rule ref="PSR12"/>
+</ruleset>

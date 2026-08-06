@@ -1,0 +1,24 @@
+.plugin-oncallforms-card {
+    position: relative;
+    color: var(--oncallforms-text) !important;
+    background: var(--oncallforms-background) !important;
+    border: 2px solid var(--oncallforms-border) !important;
+}
+
+.plugin-oncallforms-card :is(.card-title, .text-secondary) {
+    color: var(--oncallforms-text) !important;
+}
+
+.plugin-oncallforms-badge {
+    float: inline-end;
+    margin-block-end: .5rem;
+    color: var(--oncallforms-text);
+    background: color-mix(in srgb, var(--oncallforms-border) 35%, transparent);
+    border: 1px solid var(--oncallforms-border);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #plugin-oncallforms-warning {
+        transition: none;
+    }
+}

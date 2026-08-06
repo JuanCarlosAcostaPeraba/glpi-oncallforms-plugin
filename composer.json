@@ -1,0 +1,33 @@
+{
+    "name": "glpi-plugins/oncallforms",
+    "description": "Schedule-aware presentation and guidance for GLPI 11 native forms.",
+    "type": "glpi-plugin",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {"name": "Juan Carlos Acosta Peraba"}
+    ],
+    "require": {
+        "php": ">=8.2 <9.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^11.5",
+        "squizlabs/php_codesniffer": "^3.13"
+    },
+    "autoload": {
+        "psr-4": {"GlpiPlugin\\Oncallforms\\": "src/"}
+    },
+    "autoload-dev": {
+        "psr-4": {"GlpiPlugin\\Oncallforms\\Tests\\": "tests/"}
+    },
+    "scripts": {
+        "lint": "phpcs",
+        "analyse": "phpstan analyse --no-progress",
+        "test": "phpunit",
+        "check": ["@lint", "@analyse", "@test"]
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {"composer/installers": true}
+    }
+}

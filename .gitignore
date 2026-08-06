@@ -1,0 +1,8 @@
+/vendor/
+/build/
+/.phpunit.cache/
+/.phpstan-cache/
+/.codebase-memory/
+/composer.lock
+*.mo
+*.zip

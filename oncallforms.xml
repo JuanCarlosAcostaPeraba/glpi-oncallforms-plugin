@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <name>On-call Forms</name>
+  <key>oncallforms</key>
+  <version>1.0.0</version>
+  <license>GPL-3.0-or-later</license>
+  <homepage>https://github.com/JuanCarlosAcostaPeraba/glpi-oncallforms-plugin</homepage>
+  <authors>
+    <author>Juan Carlos Acosta Peraba</author>
+  </authors>
+  <requirements>
+    <glpi min="11.0.0" max="11.99.99"/>
+    <php min="8.2.0"/>
+  </requirements>
+</root>
