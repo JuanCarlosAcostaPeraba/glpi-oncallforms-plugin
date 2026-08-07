@@ -9,9 +9,15 @@
     color: var(--oncallforms-text) !important;
 }
 
+.plugin-oncallforms-visual {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    align-items: center;
+}
+
 .plugin-oncallforms-badge {
-    float: inline-end;
-    margin-block-end: .5rem;
+    margin-block-start: .75rem;
     color: var(--oncallforms-text);
     background: color-mix(in srgb, var(--oncallforms-border) 35%, transparent);
     border: 1px solid var(--oncallforms-border);

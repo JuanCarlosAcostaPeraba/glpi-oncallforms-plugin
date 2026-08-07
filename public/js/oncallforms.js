@@ -61,7 +61,18 @@
                 badge.className = 'badge plugin-oncallforms-badge';
                 badge.dataset.oncallformsBadge = '';
                 badge.textContent = context.appearance.badge;
-                link.querySelector('.card-body')?.prepend(badge);
+
+                const cardBody = link.querySelector('.card-body');
+                const layout = cardBody?.querySelector(':scope > .d-flex');
+                const illustration = layout?.firstElementChild;
+                if (layout && illustration) {
+                    const visual = document.createElement('div');
+                    visual.className = 'plugin-oncallforms-visual';
+                    layout.insertBefore(visual, illustration);
+                    visual.append(illustration, badge);
+                } else {
+                    cardBody?.prepend(badge);
+                }
             }
         });
     };
