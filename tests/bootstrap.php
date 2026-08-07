@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
+defined('READ') || define('READ', 1);
+defined('UPDATE') || define('UPDATE', 2);
+
 if (!class_exists('CommonGLPI')) {
     class_alias(GlpiPlugin\Oncallforms\Tests\Support\CommonGLPIStub::class, 'CommonGLPI');
 }
@@ -14,6 +17,14 @@ if (!class_exists('CommonDBTM')) {
 
 if (!class_exists('Profile')) {
     class_alias(GlpiPlugin\Oncallforms\Tests\Support\ProfileStub::class, 'Profile');
+}
+
+if (!class_exists('Session')) {
+    class_alias(GlpiPlugin\Oncallforms\Tests\Support\SessionStub::class, 'Session');
+}
+
+if (!class_exists('Entity')) {
+    class_alias(GlpiPlugin\Oncallforms\Tests\Support\EntityStub::class, 'Entity');
 }
 
 if (!class_exists('Plugin')) {

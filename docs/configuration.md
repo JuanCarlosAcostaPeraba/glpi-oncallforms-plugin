@@ -2,7 +2,7 @@
 
 Abra **Administración > Formularios de guardia**. El super-admin también puede usar **Configuración > Plugins > Formularios de guardia > Configurar**.
 
-Para dar acceso a un perfil técnico, abra su ficha de perfil, entre en la pestaña **Formularios de guardia** y active los permisos de lectura y modificación. Estos permisos no conceden acceso a la configuración general de GLPI.
+Para dar acceso a un perfil técnico, abra su ficha de perfil, entre en la pestaña **Formularios de guardia** y active los permisos de lectura y modificación. Estos permisos no conceden acceso a la configuración general de GLPI y solo son efectivos cuando la entidad activa es **SSI**. El super-admin conserva el acceso global.
 
 1. Seleccione el formulario de guardia e introduzca el ID de la categoría del catálogo donde debe aparecer el aviso.
 2. Elija un intervalo normal y uno o más días laborables. El valor predeterminado es de lunes a viernes, desde las 08:00 incluidas hasta las 15:00 excluidas.

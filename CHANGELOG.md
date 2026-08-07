@@ -16,6 +16,7 @@ All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.
 ### Cambiado
 
 - El horario laboral tiene en cuenta el calendario de festivos configurado.
+- El permiso técnico solo es efectivo cuando la entidad activa es SSI; el acceso global del super-admin se mantiene.
 
 ## [1.0.7] - 2026-08-06
 

@@ -10,28 +10,46 @@ final class Access
 
     public static function canRead(): bool
     {
-        return \Session::haveRight('config', UPDATE)
-            || \Session::haveRight(self::RIGHT, READ)
-            || \Session::haveRight(self::RIGHT, UPDATE);
+        if (\Session::haveRight('config', UPDATE)) {
+            return true;
+        }
+
+        return self::isManagementEntity()
+            && (
+                \Session::haveRight(self::RIGHT, READ)
+                || \Session::haveRight(self::RIGHT, UPDATE)
+            );
     }
 
     public static function canUpdate(): bool
     {
-        return \Session::haveRight('config', UPDATE)
-            || \Session::haveRight(self::RIGHT, UPDATE);
+        if (\Session::haveRight('config', UPDATE)) {
+            return true;
+        }
+
+        return self::isManagementEntity()
+            && \Session::haveRight(self::RIGHT, UPDATE);
     }
 
     public static function checkRead(): void
     {
         if (!self::canRead()) {
-            \Session::checkRight(self::RIGHT, READ);
+            \Session::checkRight('config', UPDATE);
         }
     }
 
     public static function checkUpdate(): void
     {
         if (!self::canUpdate()) {
-            \Session::checkRight(self::RIGHT, UPDATE);
+            \Session::checkRight('config', UPDATE);
         }
+    }
+
+    private static function isManagementEntity(): bool
+    {
+        $entity = \Entity::getById(\Session::getActiveEntity());
+
+        return $entity instanceof \Entity
+            && strcasecmp(trim((string) ($entity->fields['name'] ?? '')), 'SSI') === 0;
     }
 }
