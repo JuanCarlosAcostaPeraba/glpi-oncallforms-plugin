@@ -4,6 +4,19 @@ All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-08-07
+
+### Añadido
+
+- Enlace de configuración en Administración para los perfiles técnicos autorizados.
+- Permiso propio de lectura y modificación, configurable desde la ficha de cada perfil de GLPI.
+- Calendario multiselección para marcar festivos que activan el modo de guardia durante todo el día.
+- Importación acumulativa de festivos mediante CSV UTF-8 con formato `fecha,nombre`.
+
+### Cambiado
+
+- El horario laboral tiene en cuenta el calendario de festivos configurado.
+
 ## [1.0.7] - 2026-08-06
 
 ### Corregido

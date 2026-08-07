@@ -49,6 +49,20 @@ final class SetupTest extends TestCase
         self::assertStringContainsString('public/css/oncallforms.css', $source);
         self::assertFileExists(dirname(__DIR__, 2) . '/public/js/oncallforms.js');
         self::assertFileExists(dirname(__DIR__, 2) . '/public/css/oncallforms.css');
+        self::assertStringContainsString('public/js/holiday-calendar.js', $source);
+        self::assertStringContainsString('public/css/holiday-calendar.css', $source);
+        self::assertFileExists(dirname(__DIR__, 2) . '/public/js/holiday-calendar.js');
+        self::assertFileExists(dirname(__DIR__, 2) . '/public/css/holiday-calendar.css');
+    }
+
+    public function testRegistersProfilePermissionAndAdministrationMenu(): void
+    {
+        $source = file_get_contents(dirname(__DIR__, 2) . '/setup.php');
+
+        self::assertIsString($source);
+        self::assertStringContainsString('registerClass(ProfilePermission::class', $source);
+        self::assertStringContainsString("['menu_toadd']['oncallforms']['admin']", $source);
+        self::assertStringContainsString('Access::canRead()', $source);
     }
 
     public function testChecksConfigurationUsingOnlyGlpiCoreClasses(): void

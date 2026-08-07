@@ -18,6 +18,7 @@ final class Config
         'business_start' => '08:00',
         'business_end' => '15:00',
         'business_days' => '[1,2,3,4,5]',
+        'holidays' => '[]',
         'timezone' => '',
         'modal_title' => 'Fuera del horario laboral habitual',
         'modal_body' => 'Está accediendo al catálogo de incidencias fuera del horario laboral habitual. '
@@ -80,6 +81,7 @@ final class Config
             'business_start' => (string) $raw['business_start'],
             'business_end' => (string) $raw['business_end'],
             'business_days' => array_values(array_unique(array_map('intval', $days))),
+            'holidays' => HolidayCalendar::normalize((string) $raw['holidays']),
             'timezone' => $timezone,
             'modal_title' => (string) $raw['modal_title'],
             'modal_body' => (string) $raw['modal_body'],
@@ -106,6 +108,14 @@ final class Config
         $resolver->assertSelectable((int) $values['oncall_form_id']);
 
         \Config::setConfigurationValues(self::CONTEXT, $values);
+    }
+
+    /** @param list<array{date: string, name: string}> $holidays */
+    public static function saveHolidays(array $holidays): void
+    {
+        \Config::setConfigurationValues(self::CONTEXT, [
+            'holidays' => HolidayCalendar::encode($holidays),
+        ]);
     }
 
     /** @param array<string, mixed> $input @return array<string, string> */
@@ -144,6 +154,9 @@ final class Config
             'business_start' => $start,
             'business_end' => $end,
             'business_days' => json_encode($days, JSON_THROW_ON_ERROR),
+            'holidays' => HolidayCalendar::encode(
+                HolidayCalendar::normalize($input['holidays_json'] ?? '[]')
+            ),
             'timezone' => $timezone,
             'modal_title' => self::plainText($input['modal_title'] ?? '', 160),
             'modal_body' => self::plainText($input['modal_body'] ?? '', 2000),

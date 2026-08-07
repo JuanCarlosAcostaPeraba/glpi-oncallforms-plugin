@@ -24,6 +24,7 @@ final readonly class FrontendContext
             $config['business_end'],
             $config['business_days'],
             new DateTimeZone($config['timezone']),
+            $config['holidays'],
         );
         $isOnCall = $schedule->isOnCall(new DateTimeImmutable('now', $schedule->getTimezone()));
         $isCatalog = ServiceCatalogRequest::isCatalog($requestUri);

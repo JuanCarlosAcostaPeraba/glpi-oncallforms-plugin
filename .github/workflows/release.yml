@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Release tag (for example, v1.0.7-rc.1)
+        description: Release tag (for example, v1.1.0-rc.1)
         required: true
-        default: v1.0.7-rc.1
+        default: v1.1.0-rc.1
         type: string
       prerelease:
         description: Publish as a GitHub prerelease
@@ -41,6 +41,7 @@ jobs:
         with:
           node-version: '22'
       - run: node --check public/js/oncallforms.js
+      - run: node --check public/js/holiday-calendar.js
 
   release:
     needs: verify

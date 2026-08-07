@@ -28,6 +28,10 @@ final class ConfigTest extends TestCase
         self::assertSame('[1,2,3,4,5]', $result['business_days']);
         self::assertSame('#AABBCC', $result['card_background']);
         self::assertSame('Text only', $result['modal_body']);
+        self::assertSame(
+            '[{"date":"2027-01-01","name":"Año Nuevo"}]',
+            $result['holidays']
+        );
     }
 
     /** @param array<string, mixed> $changes */
@@ -52,6 +56,9 @@ final class ConfigTest extends TestCase
         yield 'short hex color' => [['card_border' => '#FFF']];
         yield 'css injection' => [['card_text' => '#000000;display:none']];
         yield 'empty text' => [['checkbox_text' => '']];
+        yield 'invalid holiday date' => [[
+            'holidays_json' => '[{"date":"2027-02-30","name":"Fecha imposible"}]',
+        ]];
     }
 
     /** @return array<string, mixed> */
@@ -63,6 +70,7 @@ final class ConfigTest extends TestCase
             'business_start' => '08:00',
             'business_end' => '15:00',
             'business_days' => ['5', '1', '2', '3', '4', '1'],
+            'holidays_json' => '[{"date":"2027-01-01","name":"Año Nuevo"}]',
             'timezone' => 'Atlantic/Canary',
             'modal_title' => 'Warning',
             'modal_body' => '<b>Text</b> only',

@@ -11,12 +11,16 @@ use InvalidArgumentException;
 
 final readonly class Schedule
 {
-    /** @param list<int> $businessDays ISO-8601 days, Monday=1 and Sunday=7. */
+    /**
+     * @param list<int> $businessDays ISO-8601 days, Monday=1 and Sunday=7.
+     * @param list<array{date: string, name: string}> $holidays
+     */
     public function __construct(
         private string $start,
         private string $end,
         private array $businessDays,
         private DateTimeZone $timezone,
+        private array $holidays = [],
     ) {
         self::assertTime($start, 'inicio');
         self::assertTime($end, 'fin');
@@ -36,6 +40,11 @@ final readonly class Schedule
     public function isBusinessTime(DateTimeInterface $dateTime): bool
     {
         $local = DateTimeImmutable::createFromInterface($dateTime)->setTimezone($this->timezone);
+        foreach ($this->holidays as $holiday) {
+            if ($holiday['date'] === $local->format('Y-m-d')) {
+                return false;
+            }
+        }
         $day = (int) $local->format('N');
         $time = $local->format('H:i');
 

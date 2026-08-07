@@ -28,14 +28,17 @@ jobs:
         with:
           node-version: '22'
       - run: node --check public/js/oncallforms.js
+      - run: node --check public/js/holiday-calendar.js
 
   package:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - run: bash tools/package.sh
-      - run: test -f build/oncallforms-1.0.7.zip
-      - run: unzip -l build/oncallforms-1.0.7.zip | grep 'oncallforms/setup.php'
-      - run: unzip -l build/oncallforms-1.0.7.zip | grep 'oncallforms/public/js/oncallforms.js'
-      - run: unzip -l build/oncallforms-1.0.7.zip | grep 'oncallforms/public/css/oncallforms.css'
-      - run: '! unzip -l build/oncallforms-1.0.7.zip | grep -E "(^|/)tests/|(^|/)vendor/|\.git"'
+      - run: test -f build/oncallforms-1.1.0.zip
+      - run: unzip -l build/oncallforms-1.1.0.zip | grep 'oncallforms/setup.php'
+      - run: unzip -l build/oncallforms-1.1.0.zip | grep 'oncallforms/public/js/oncallforms.js'
+      - run: unzip -l build/oncallforms-1.1.0.zip | grep 'oncallforms/public/js/holiday-calendar.js'
+      - run: unzip -l build/oncallforms-1.1.0.zip | grep 'oncallforms/public/css/oncallforms.css'
+      - run: unzip -l build/oncallforms-1.1.0.zip | grep 'oncallforms/public/css/holiday-calendar.css'
+      - run: '! unzip -l build/oncallforms-1.1.0.zip | grep -E "(^|/)tests/|(^|/)vendor/|\.git"'

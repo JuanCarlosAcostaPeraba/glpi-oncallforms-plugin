@@ -1,0 +1,94 @@
+.oncallforms-holidays {
+    display: grid;
+    grid-template-columns: minmax(18rem, 26rem) minmax(18rem, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.oncallforms-calendar {
+    border: 1px solid var(--tblr-border-color);
+    border-radius: var(--tblr-border-radius);
+    padding: 1rem;
+    background: var(--tblr-bg-surface);
+}
+
+.oncallforms-calendar__header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: .75rem;
+    align-items: center;
+    margin-bottom: .75rem;
+    text-align: center;
+}
+
+.oncallforms-calendar__header strong {
+    text-transform: capitalize;
+}
+
+.oncallforms-calendar__weekdays,
+.oncallforms-calendar__days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: .25rem;
+}
+
+.oncallforms-calendar__weekdays {
+    margin-bottom: .25rem;
+    color: var(--tblr-secondary);
+    font-size: .75rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.oncallforms-calendar__day,
+.oncallforms-calendar__spacer {
+    aspect-ratio: 1;
+}
+
+.oncallforms-calendar__day {
+    border: 1px solid transparent;
+    border-radius: 50%;
+    background: transparent;
+    color: inherit;
+}
+
+.oncallforms-calendar__day:hover,
+.oncallforms-calendar__day:focus-visible {
+    border-color: var(--tblr-primary);
+    outline: none;
+}
+
+.oncallforms-calendar__day.is-today {
+    border-color: var(--tblr-secondary);
+}
+
+.oncallforms-calendar__day.is-holiday {
+    border-color: var(--tblr-danger);
+    background: var(--tblr-danger);
+    color: #fff;
+    font-weight: 700;
+}
+
+.oncallforms-holiday-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: .75rem;
+    align-items: end;
+    padding: .75rem 0;
+    border-bottom: 1px solid var(--tblr-border-color);
+}
+
+.oncallforms-holiday-row__fields {
+    min-width: 0;
+}
+
+.oncallforms-holiday-row .form-label {
+    display: block;
+    text-transform: capitalize;
+}
+
+@media (max-width: 767.98px) {
+    .oncallforms-holidays {
+        grid-template-columns: 1fr;
+    }
+}

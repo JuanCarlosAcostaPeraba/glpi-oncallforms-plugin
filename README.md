@@ -14,7 +14,9 @@ No fabricated screenshots are included.
 
 - Native GLPI 11 forms and access policies; no FormCreator dependency.
 - Server-side schedule decision with an injectable date/time for tests.
-- Configurable forms, weekdays, one daily interval, IANA timezone, message labels, badge, and safe colors.
+- Configurable forms, weekdays, holidays, one daily interval, IANA timezone, message labels, badge, and safe colors.
+- Administration menu and dedicated profile rights for authorized technicians.
+- Multi-select holiday calendar and UTF-8 CSV import using `fecha,nombre`.
 - Bootstrap/Tabler-compatible accessible modal with explicit acknowledgement.
 - Global configuration protected by GLPI permissions and CSRF.
 - Textos originales en español; los catálogos de localización se añadirán más adelante.
@@ -54,7 +56,7 @@ The default interval is Monday-Friday, `08:00-15:00` in the configured/effective
 
 ## Configuration
 
-See [docs/configuration.md](docs/configuration.md). Version 1.0.7 stores one global configuration. The warning targets a configurable service-catalog category, while the form selector shows only active, non-deleted native forms allowed by GLPI's current entity and access policies.
+See [docs/configuration.md](docs/configuration.md). Version 1.1.0 stores one global configuration. The warning targets a configurable service-catalog category, while the form selector shows only active, non-deleted native forms allowed by GLPI's current entity and access policies. Holidays activate on-call mode for the whole local calendar day.
 
 ## Security
 
@@ -65,7 +67,7 @@ The card hiding rule is visual because GLPI 11 exposes no public server hook for
 ## Known limitations
 
 - Global configuration only; no per-entity inheritance.
-- One interval per day; no holidays, split shifts, teams, notifications, ticket automation, or acceptance audit.
+- One interval per day; no split shifts, teams, notifications, ticket automation, or acceptance audit.
 - DOM adaptation depends on the public `/Form/Render/{id}` link shape and is isolated in `public/js/oncallforms.js`.
 - Browser and install verification requires a real GLPI 11 test environment.
 

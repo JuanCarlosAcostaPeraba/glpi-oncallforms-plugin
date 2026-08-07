@@ -59,6 +59,24 @@ final class ScheduleTest extends TestCase
         self::assertTrue($weekendSchedule->isOnCall(new DateTimeImmutable('2026-08-09 09:30:00 UTC')));
     }
 
+    public function testHolidayActivatesOnCallModeForTheWholeDay(): void
+    {
+        $schedule = new Schedule(
+            '08:00',
+            '15:00',
+            [1, 2, 3, 4, 5],
+            new DateTimeZone('Atlantic/Canary'),
+            [['date' => '2026-08-03', 'name' => 'Festivo local']],
+        );
+
+        self::assertTrue($schedule->isOnCall(
+            new DateTimeImmutable('2026-08-03 10:30:00', new DateTimeZone('Atlantic/Canary'))
+        ));
+        self::assertFalse($schedule->isOnCall(
+            new DateTimeImmutable('2026-08-04 10:30:00', new DateTimeZone('Atlantic/Canary'))
+        ));
+    }
+
     /** @param list<int> $days */
     #[DataProvider('invalidConfigurations')]
     public function testRejectsInvalidConfiguration(string $start, string $end, array $days): void

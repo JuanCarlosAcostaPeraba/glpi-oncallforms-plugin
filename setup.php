@@ -3,8 +3,11 @@
 declare(strict_types=1);
 
 use Glpi\Plugin\Hooks;
+use GlpiPlugin\Oncallforms\Access;
+use GlpiPlugin\Oncallforms\AdminMenu;
+use GlpiPlugin\Oncallforms\ProfilePermission;
 
-define('PLUGIN_ONCALLFORMS_VERSION', '1.0.7');
+define('PLUGIN_ONCALLFORMS_VERSION', '1.1.0');
 define('PLUGIN_ONCALLFORMS_MIN_GLPI', '11.0.0');
 define('PLUGIN_ONCALLFORMS_MAX_GLPI', '12.0.0');
 define('PLUGIN_ONCALLFORMS_MIN_PHP', '8.2.0');
@@ -17,6 +20,20 @@ function plugin_init_oncallforms(): void
     $PLUGIN_HOOKS['config_page']['oncallforms'] = 'front/config.form.php';
 
     if (!Plugin::isPluginActive('oncallforms')) {
+        return;
+    }
+
+    $plugin = new Plugin();
+    $plugin->registerClass(ProfilePermission::class, ['addtabon' => [Profile::class]]);
+
+    if (Access::canRead()) {
+        $PLUGIN_HOOKS['menu_toadd']['oncallforms']['admin'] = AdminMenu::class;
+    }
+
+    $requestPath = parse_url((string) ($_SERVER['REQUEST_URI'] ?? ''), PHP_URL_PATH);
+    if (is_string($requestPath) && str_ends_with($requestPath, '/plugins/oncallforms/front/config.form.php')) {
+        $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['oncallforms'][] = 'public/js/holiday-calendar.js';
+        $PLUGIN_HOOKS[Hooks::ADD_CSS]['oncallforms'][] = 'public/css/holiday-calendar.css';
         return;
     }
 

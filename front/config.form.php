@@ -2,24 +2,42 @@
 
 declare(strict_types=1);
 
+use GlpiPlugin\Oncallforms\Access;
 use GlpiPlugin\Oncallforms\Config;
 use GlpiPlugin\Oncallforms\FormResolver;
+use GlpiPlugin\Oncallforms\HolidayCalendar;
 
 if (!defined('GLPI_ROOT')) {
     define('GLPI_ROOT', '../../..');
 }
 include GLPI_ROOT . '/inc/includes.php';
 
-Session::checkRight('config', UPDATE);
+Access::checkRead();
 
 $configUrl = Html::getPrefixedUrl('/plugins/oncallforms/front/config.form.php');
 $resolver = new FormResolver();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    Session::checkRight('config', UPDATE);
+    Access::checkUpdate();
 
     try {
-        Config::save($_POST, $resolver);
-        Session::addMessageAfterRedirect(__('Configuración guardada.', 'oncallforms'), true, INFO);
+        if (isset($_POST['import_holidays'])) {
+            $upload = $_FILES['holidays_csv'] ?? null;
+            if (!is_array($upload) || ($upload['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+                throw new InvalidArgumentException(__('Seleccione un archivo CSV válido.', 'oncallforms'));
+            }
+
+            $imported = HolidayCalendar::fromCsvFile((string) ($upload['tmp_name'] ?? ''));
+            $current = Config::get();
+            $holidays = HolidayCalendar::merge($current['holidays'], $imported);
+            Config::saveHolidays($holidays);
+            Session::addMessageAfterRedirect(sprintf(
+                __('Se han importado o actualizado %d festivos.', 'oncallforms'),
+                count($imported)
+            ), true, INFO);
+        } else {
+            Config::save($_POST, $resolver);
+            Session::addMessageAfterRedirect(__('Configuración guardada.', 'oncallforms'), true, INFO);
+        }
     } catch (InvalidArgumentException $exception) {
         Session::addMessageAfterRedirect($exception->getMessage(), true, ERROR);
     }
@@ -52,7 +70,7 @@ Html::header(
 );
 ?>
 <div class="container-xl">
-    <form method="post" action="<?= oncallforms_escape($configUrl) ?>" class="card">
+    <form method="post" action="<?= oncallforms_escape($configUrl) ?>" enctype="multipart/form-data" class="card">
         <div class="card-header">
             <h2 class="card-title"><?= oncallforms_escape(__('Formularios de guardia', 'oncallforms')) ?></h2>
         </div>
@@ -136,6 +154,88 @@ Html::header(
                     <?php endforeach; ?>
                 </div>
             </fieldset>
+
+            <h3><?= oncallforms_escape(__('Días festivos', 'oncallforms')) ?></h3>
+            <p class="text-secondary">
+                <?= oncallforms_escape(
+                    __(
+                        'Los días marcados activan el modo de guardia durante todo el día, aunque sean laborables.',
+                        'oncallforms'
+                    )
+                ) ?>
+            </p>
+            <?php
+            $holidaysJson = json_encode(
+                $config['holidays'],
+                JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP
+            );
+            ?>
+            <div class="oncallforms-holidays mb-4" data-oncallforms-holidays>
+                <input type="hidden" id="holidays_json" name="holidays_json"
+                       value="<?= oncallforms_escape($holidaysJson) ?>">
+                <div class="oncallforms-calendar"
+                     aria-label="<?= oncallforms_escape(__('Calendario de festivos', 'oncallforms')) ?>">
+                    <div class="oncallforms-calendar__header">
+                        <button class="btn btn-outline-secondary" type="button" data-calendar-previous
+                                aria-label="<?= oncallforms_escape(__('Mes anterior', 'oncallforms')) ?>">
+                            <i class="ti ti-chevron-left" aria-hidden="true"></i>
+                        </button>
+                        <strong data-calendar-title></strong>
+                        <button class="btn btn-outline-secondary" type="button" data-calendar-next
+                                aria-label="<?= oncallforms_escape(__('Mes siguiente', 'oncallforms')) ?>">
+                            <i class="ti ti-chevron-right" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="oncallforms-calendar__weekdays" aria-hidden="true">
+                        <?php foreach (['L', 'M', 'X', 'J', 'V', 'S', 'D'] as $dayLabel) : ?>
+                            <span><?= $dayLabel ?></span>
+                        <?php endforeach; ?>
+                    </div>
+                    <div class="oncallforms-calendar__days" role="grid" data-calendar-days></div>
+                </div>
+                <div class="oncallforms-holidays__list">
+                    <h4><?= oncallforms_escape(__('Festivos seleccionados', 'oncallforms')) ?></h4>
+                    <p class="text-secondary" data-holidays-empty>
+                        <?= oncallforms_escape(__('Todavía no hay festivos seleccionados.', 'oncallforms')) ?>
+                    </p>
+                    <div data-holidays-list></div>
+                </div>
+            </div>
+
+            <div class="card card-sm mb-4">
+                <div class="card-body">
+                    <h4><?= oncallforms_escape(__('Importar festivos desde CSV', 'oncallforms')) ?></h4>
+                    <p class="text-secondary mb-2">
+                        <?= oncallforms_escape(
+                            __(
+                                'Archivo UTF-8, separado por comas, con cabecera fecha,nombre. '
+                                . 'La fecha usa AAAA-MM-DD y el nombre puede quedar vacío. '
+                                . 'Los datos se combinan con los festivos existentes.',
+                                'oncallforms'
+                            )
+                        ) ?>
+                    </p>
+                    <pre class="bg-light p-2 rounded">fecha,nombre
+2027-01-01,Año Nuevo
+2027-05-30,Día de Canarias</pre>
+                    <div class="row g-2 align-items-end">
+                        <div class="col-md-8">
+                            <label class="form-label" for="holidays_csv">
+                                <?= oncallforms_escape(__('Archivo CSV de festivos', 'oncallforms')) ?>
+                            </label>
+                            <input class="form-control" id="holidays_csv" name="holidays_csv"
+                                   type="file" accept=".csv,text/csv">
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-outline-primary w-100" type="submit" name="import_holidays" value="1"
+                                    formnovalidate>
+                                <i class="ti ti-file-import" aria-hidden="true"></i>
+                                <?= oncallforms_escape(__('Importar CSV', 'oncallforms')) ?>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <h3><?= oncallforms_escape(__('Mensaje de aviso', 'oncallforms')) ?></h3>
             <div class="row g-3 mb-4">

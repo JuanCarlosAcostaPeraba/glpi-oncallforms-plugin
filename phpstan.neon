@@ -2,4 +2,7 @@ parameters:
     level: 8
     paths:
         - src/Schedule.php
+        - src/HolidayCalendar.php
+    scanFiles:
+        - tests/Support/phpstan-functions.php
     tmpDir: .phpstan-cache
