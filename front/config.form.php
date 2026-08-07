@@ -277,6 +277,7 @@ Html::header(
             </div>
 
             <h3><?= oncallforms_escape(__('Apariencia', 'oncallforms')) ?></h3>
+            <h4><?= oncallforms_escape(__('Tarjeta de guardias', 'oncallforms')) ?></h4>
             <div class="row g-3">
                 <?php foreach (
                     [
@@ -301,6 +302,26 @@ Html::header(
                     <input class="form-control" id="badge_text" name="badge_text" maxlength="60" required
                            value="<?= oncallforms_escape($config['badge_text']) ?>">
                 </div>
+            </div>
+
+            <h4 class="mt-4"><?= oncallforms_escape(__('Tarjeta del catálogo ordinario', 'oncallforms')) ?></h4>
+            <div class="row g-3">
+                <?php foreach (
+                    [
+                        'catalog_card_background' => __('Color de fondo', 'oncallforms'),
+                        'catalog_card_border' => __('Color del borde', 'oncallforms'),
+                        'catalog_card_text' => __('Color del texto', 'oncallforms'),
+                    ] as $field => $label
+) : ?>
+                    <div class="col-md-4">
+                        <label class="form-label" for="<?= oncallforms_escape($field) ?>">
+                                 <?= oncallforms_escape($label) ?>
+                        </label>
+                        <input class="form-control form-control-color w-100" id="<?= oncallforms_escape($field) ?>"
+                               name="<?= oncallforms_escape($field) ?>" type="color" required
+                               value="<?= oncallforms_escape($config[$field]) ?>">
+                    </div>
+                <?php endforeach; ?>
             </div>
         </div>
         <div class="card-footer d-flex justify-content-end">

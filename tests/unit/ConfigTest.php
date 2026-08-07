@@ -17,6 +17,9 @@ final class ConfigTest extends TestCase
         self::assertSame('He leído y acepto las condiciones.', Config::DEFAULTS['checkbox_text']);
         self::assertSame('Ir al formulario de guardia', Config::DEFAULTS['oncall_button_text']);
         self::assertSame('Continuar en el catálogo', Config::DEFAULTS['continue_button_text']);
+        self::assertSame('#D1E7DD', Config::DEFAULTS['catalog_card_background']);
+        self::assertSame('#198754', Config::DEFAULTS['catalog_card_border']);
+        self::assertSame('#0F5132', Config::DEFAULTS['catalog_card_text']);
     }
 
     public function testNormalizesSafeConfiguration(): void
@@ -27,6 +30,7 @@ final class ConfigTest extends TestCase
         self::assertSame('27', $result['catalog_category_id']);
         self::assertSame('[1,2,3,4,5]', $result['business_days']);
         self::assertSame('#AABBCC', $result['card_background']);
+        self::assertSame('#DDEEDD', $result['catalog_card_background']);
         self::assertSame('Text only', $result['modal_body']);
         self::assertSame(
             '[{"date":"2027-01-01","name":"Año Nuevo"}]',
@@ -55,6 +59,7 @@ final class ConfigTest extends TestCase
         yield 'invalid timezone' => [['timezone' => 'Mars/Olympus']];
         yield 'short hex color' => [['card_border' => '#FFF']];
         yield 'css injection' => [['card_text' => '#000000;display:none']];
+        yield 'invalid catalog color' => [['catalog_card_border' => 'green']];
         yield 'empty text' => [['checkbox_text' => '']];
         yield 'invalid holiday date' => [[
             'holidays_json' => '[{"date":"2027-02-30","name":"Fecha imposible"}]',
@@ -81,6 +86,9 @@ final class ConfigTest extends TestCase
             'card_border' => '#123456',
             'card_text' => '#000000',
             'badge_text' => 'ON CALL',
+            'catalog_card_background' => '#ddeedd',
+            'catalog_card_border' => '#198754',
+            'catalog_card_text' => '#0f5132',
         ];
     }
 }

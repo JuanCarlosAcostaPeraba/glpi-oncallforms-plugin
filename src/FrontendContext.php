@@ -38,6 +38,7 @@ final readonly class FrontendContext
             'catalog' => [
                 'enabled' => $isCatalog && $oncall !== null,
                 'formId' => $oncall?->getID(),
+                'categoryId' => $config['catalog_category_id'],
                 'hidden' => !$isOnCall,
             ],
             'warning' => [
@@ -56,6 +57,9 @@ final readonly class FrontendContext
                 'border' => $config['card_border'],
                 'text' => $config['card_text'],
                 'badge' => $config['badge_text'],
+                'catalogBackground' => $config['catalog_card_background'],
+                'catalogBorder' => $config['catalog_card_border'],
+                'catalogText' => $config['catalog_card_text'],
             ],
         ];
 

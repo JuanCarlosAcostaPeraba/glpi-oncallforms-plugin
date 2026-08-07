@@ -8,7 +8,7 @@ Para dar acceso a un perfil técnico, abra su ficha de perfil, entre en la pesta
 2. Elija un intervalo normal y uno o más días laborables. El valor predeterminado es de lunes a viernes, desde las 08:00 incluidas hasta las 15:00 excluidas.
 3. Mantenga la zona horaria efectiva de GLPI/PHP o seleccione una zona horaria IANA explícita.
 4. Marque en el calendario los días festivos. Un festivo activa el modo de guardia durante las 24 horas.
-5. Edite los textos planos del aviso y los tres colores seguros con formato `#RRGGBB`.
+5. Edite los textos planos del aviso y las paletas de las tarjetas de guardias y del catálogo ordinario. Cada paleta permite configurar fondo, borde y texto con colores seguros en formato `#RRGGBB`. La tarjeta del catálogo ordinario utiliza una paleta verde de forma predeterminada.
 
 ## Importación de festivos
 

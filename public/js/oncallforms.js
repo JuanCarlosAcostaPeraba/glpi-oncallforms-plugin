@@ -45,6 +45,13 @@
         }
 
         document.querySelectorAll('[data-glpi-service-catalog-items] a.card[href]').forEach((link) => {
+            if (urlMatchesCategory(link.getAttribute('href'), catalog.categoryId)) {
+                link.classList.add('plugin-oncallforms-category-card');
+                link.style.setProperty('--oncallforms-category-background', context.appearance.catalogBackground);
+                link.style.setProperty('--oncallforms-category-border', context.appearance.catalogBorder);
+                link.style.setProperty('--oncallforms-category-text', context.appearance.catalogText);
+            }
+
             if (!pathMatchesForm(link.getAttribute('href'), catalog.formId)) {
                 return;
             }

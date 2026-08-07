@@ -14,7 +14,7 @@ No fabricated screenshots are included.
 
 - Native GLPI 11 forms and access policies; no FormCreator dependency.
 - Server-side schedule decision with an injectable date/time for tests.
-- Configurable forms, weekdays, holidays, one daily interval, IANA timezone, message labels, badge, and safe colors.
+- Configurable forms, weekdays, holidays, one daily interval, IANA timezone, message labels, badge, and independent safe color palettes for the on-call and ordinary catalog cards.
 - Administration menu and dedicated profile rights for authorized technicians in the active SSI entity.
 - Multi-select holiday calendar and UTF-8 CSV import using `fecha,nombre`.
 - Bootstrap/Tabler-compatible accessible modal with explicit acknowledgement.

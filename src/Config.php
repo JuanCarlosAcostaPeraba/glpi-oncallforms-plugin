@@ -30,6 +30,9 @@ final class Config
         'card_border' => '#FFB300',
         'card_text' => '#3D2E00',
         'badge_text' => 'GUARDIAS',
+        'catalog_card_background' => '#D1E7DD',
+        'catalog_card_border' => '#198754',
+        'catalog_card_text' => '#0F5132',
     ];
 
     /** @return array<string, mixed> */
@@ -92,6 +95,9 @@ final class Config
             'card_border' => (string) $raw['card_border'],
             'card_text' => (string) $raw['card_text'],
             'badge_text' => (string) $raw['badge_text'],
+            'catalog_card_background' => (string) $raw['catalog_card_background'],
+            'catalog_card_border' => (string) $raw['catalog_card_border'],
+            'catalog_card_text' => (string) $raw['catalog_card_text'],
         ];
     }
 
@@ -167,6 +173,9 @@ final class Config
             'card_border' => self::color($input['card_border'] ?? ''),
             'card_text' => self::color($input['card_text'] ?? ''),
             'badge_text' => self::plainText($input['badge_text'] ?? '', 60),
+            'catalog_card_background' => self::color($input['catalog_card_background'] ?? ''),
+            'catalog_card_border' => self::color($input['catalog_card_border'] ?? ''),
+            'catalog_card_text' => self::color($input['catalog_card_text'] ?? ''),
         ];
     }
 

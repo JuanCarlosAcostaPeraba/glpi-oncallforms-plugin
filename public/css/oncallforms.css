@@ -9,6 +9,16 @@
     color: var(--oncallforms-text) !important;
 }
 
+.plugin-oncallforms-category-card {
+    color: var(--oncallforms-category-text) !important;
+    background: var(--oncallforms-category-background) !important;
+    border: 2px solid var(--oncallforms-category-border) !important;
+}
+
+.plugin-oncallforms-category-card :is(.card-title, .text-secondary) {
+    color: var(--oncallforms-category-text) !important;
+}
+
 .plugin-oncallforms-visual {
     display: flex;
     flex: 0 0 auto;
