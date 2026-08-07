@@ -4,6 +4,18 @@ declare(strict_types=1);
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
+if (!class_exists('CommonGLPI')) {
+    class_alias(GlpiPlugin\Oncallforms\Tests\Support\CommonGLPIStub::class, 'CommonGLPI');
+}
+
+if (!class_exists('CommonDBTM')) {
+    class_alias(GlpiPlugin\Oncallforms\Tests\Support\CommonDBTMStub::class, 'CommonDBTM');
+}
+
+if (!class_exists('Profile')) {
+    class_alias(GlpiPlugin\Oncallforms\Tests\Support\ProfileStub::class, 'Profile');
+}
+
 if (!class_exists('Plugin')) {
     class_alias(GlpiPlugin\Oncallforms\Tests\Support\PluginStub::class, 'Plugin');
 }

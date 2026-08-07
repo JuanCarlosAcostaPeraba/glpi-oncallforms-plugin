@@ -36,7 +36,7 @@ final class ProfilePermission extends \Profile
             echo "<form method='post' action='" . $item->getFormURL() . "'>";
         }
 
-        $item->displayRightsChoiceMatrix(self::getRights(), [
+        $item->displayRightsChoiceMatrix(self::getConfigurationRights(), [
             'canedit' => $canEdit,
             'default_class' => 'tab_bg_2',
             'title' => __('Configuración', 'oncallforms'),
@@ -52,7 +52,7 @@ final class ProfilePermission extends \Profile
     }
 
     /** @return list<array{rights: array<int, string>, label: string, field: string}> */
-    public static function getRights(): array
+    public static function getConfigurationRights(): array
     {
         return [[
             'rights' => [

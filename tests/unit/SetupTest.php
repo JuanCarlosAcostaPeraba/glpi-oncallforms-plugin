@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GlpiPlugin\Oncallforms\Tests\Unit;
 
+use GlpiPlugin\Oncallforms\ProfilePermission;
 use PHPUnit\Framework\TestCase;
 
 final class SetupTest extends TestCase
@@ -63,6 +64,12 @@ final class SetupTest extends TestCase
         self::assertStringContainsString('registerClass(ProfilePermission::class', $source);
         self::assertStringContainsString("['menu_toadd']['oncallforms']['admin']", $source);
         self::assertStringContainsString('Access::canRead()', $source);
+    }
+
+    public function testProfilePermissionLoadsAgainstGlpiMethodSignatures(): void
+    {
+        self::assertTrue(class_exists(ProfilePermission::class));
+        self::assertTrue(is_subclass_of(ProfilePermission::class, \Profile::class));
     }
 
     public function testChecksConfigurationUsingOnlyGlpiCoreClasses(): void
