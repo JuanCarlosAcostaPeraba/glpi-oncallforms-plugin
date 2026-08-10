@@ -7,7 +7,7 @@ use GlpiPlugin\Oncallforms\Access;
 use GlpiPlugin\Oncallforms\AdminMenu;
 use GlpiPlugin\Oncallforms\ProfilePermission;
 
-define('PLUGIN_ONCALLFORMS_VERSION', '1.1.0');
+define('PLUGIN_ONCALLFORMS_VERSION', '1.1.1');
 define('PLUGIN_ONCALLFORMS_MIN_GLPI', '11.0.0');
 define('PLUGIN_ONCALLFORMS_MAX_GLPI', '12.0.0');
 define('PLUGIN_ONCALLFORMS_MIN_PHP', '8.2.0');

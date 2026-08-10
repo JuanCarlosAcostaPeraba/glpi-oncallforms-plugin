@@ -7,6 +7,7 @@ namespace GlpiPlugin\Oncallforms;
 use DateTimeImmutable;
 use InvalidArgumentException;
 use JsonException;
+use RuntimeException;
 
 final class HolidayCalendar
 {
@@ -103,6 +104,33 @@ final class HolidayCalendar
 
         try {
             return self::readCsv($handle);
+        } finally {
+            fclose($handle);
+        }
+    }
+
+    /** @param list<array{date: string, name: string}> $holidays */
+    public static function toCsv(array $holidays): string
+    {
+        $handle = fopen('php://temp', 'w+b');
+        if ($handle === false) {
+            throw new RuntimeException(__('No se ha podido generar el archivo CSV.', 'oncallforms'));
+        }
+
+        try {
+            fwrite($handle, "\xEF\xBB\xBF");
+            fputcsv($handle, ['fecha', 'nombre'], ',', '"', '');
+            foreach (self::normalize($holidays) as $holiday) {
+                fputcsv($handle, [$holiday['date'], $holiday['name']], ',', '"', '');
+            }
+
+            rewind($handle);
+            $contents = stream_get_contents($handle);
+            if ($contents === false) {
+                throw new RuntimeException(__('No se ha podido generar el archivo CSV.', 'oncallforms'));
+            }
+
+            return $contents;
         } finally {
             fclose($handle);
         }

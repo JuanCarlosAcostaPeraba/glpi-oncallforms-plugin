@@ -16,7 +16,7 @@ No fabricated screenshots are included.
 - Server-side schedule decision with an injectable date/time for tests.
 - Configurable forms, weekdays, holidays, one daily interval, IANA timezone, message labels, badge, and independent safe color palettes for the on-call and ordinary catalog cards.
 - Administration menu and dedicated profile rights for authorized technicians in the active SSI entity.
-- Multi-select holiday calendar and UTF-8 CSV import using `fecha,nombre`.
+- Multi-select holiday calendar and UTF-8 CSV import/export using `fecha,nombre`.
 - Bootstrap/Tabler-compatible accessible modal with explicit acknowledgement.
 - Global configuration protected by GLPI permissions and CSRF.
 - Textos originales en español; los catálogos de localización se añadirán más adelante.

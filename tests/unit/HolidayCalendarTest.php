@@ -41,6 +41,30 @@ final class HolidayCalendarTest extends TestCase
         }
     }
 
+    public function testExportsAnImportableUtf8Csv(): void
+    {
+        $csv = HolidayCalendar::toCsv([
+            ['date' => '2027-05-30', 'name' => 'Día, de "Canarias"'],
+            ['date' => '2027-01-01', 'name' => 'Año Nuevo'],
+        ]);
+
+        self::assertStringStartsWith("\xEF\xBB\xBFfecha,nombre\n", $csv);
+        self::assertStringContainsString('2027-05-30,"Día, de ""Canarias"""', $csv);
+
+        $path = tempnam(sys_get_temp_dir(), 'oncallforms-');
+        self::assertIsString($path);
+        file_put_contents($path, $csv);
+
+        try {
+            self::assertSame([
+                ['date' => '2027-01-01', 'name' => 'Año Nuevo'],
+                ['date' => '2027-05-30', 'name' => 'Día, de "Canarias"'],
+            ], HolidayCalendar::fromCsvFile($path));
+        } finally {
+            unlink($path);
+        }
+    }
+
     #[DataProvider('invalidCsvFiles')]
     public function testRejectsInvalidCsv(string $contents): void
     {

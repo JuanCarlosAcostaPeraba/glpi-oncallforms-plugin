@@ -23,4 +23,6 @@ fecha,nombre
 
 La fecha es obligatoria y usa `AAAA-MM-DD`; el nombre es opcional. La importación valida el archivo completo antes de guardar, elimina fechas duplicadas y combina el resultado con los festivos existentes. Si una fecha ya existe, el valor importado actualiza su nombre.
 
+El botón **Exportar CSV** descarga todos los festivos guardados con la misma cabecera y codificación UTF-8 admitidas por la importación. El archivo puede conservarse como copia de seguridad, editarse y volver a importarse, por ejemplo como base para preparar el calendario del año siguiente.
+
 El formulario de guardia debe permanecer activo, sin eliminar, disponible en el ámbito de la entidad actual y accesible para el usuario actual. Indique también el ID de la categoría del catálogo donde debe aparecer el aviso; para `/ServiceCatalog?category=27`, use `27`. La configuración es global en la versión 1.1.0.

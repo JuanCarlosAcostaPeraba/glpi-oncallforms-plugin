@@ -15,6 +15,7 @@ include GLPI_ROOT . '/inc/includes.php';
 Access::checkRead();
 
 $configUrl = Html::getPrefixedUrl('/plugins/oncallforms/front/config.form.php');
+$holidaysExportUrl = Html::getPrefixedUrl('/plugins/oncallforms/front/holidays.export.php');
 $resolver = new FormResolver();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     Access::checkUpdate();
@@ -215,23 +216,38 @@ Html::header(
                             )
                         ) ?>
                     </p>
+                    <p class="text-secondary mb-2">
+                        <?= oncallforms_escape(
+                            __(
+                                'La exportación descarga los festivos guardados con el mismo formato importable.',
+                                'oncallforms'
+                            )
+                        ) ?>
+                    </p>
                     <pre class="bg-light p-2 rounded">fecha,nombre
 2027-01-01,Año Nuevo
 2027-05-30,Día de Canarias</pre>
                     <div class="row g-2 align-items-end">
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                             <label class="form-label" for="holidays_csv">
                                 <?= oncallforms_escape(__('Archivo CSV de festivos', 'oncallforms')) ?>
                             </label>
                             <input class="form-control" id="holidays_csv" name="holidays_csv"
                                    type="file" accept=".csv,text/csv">
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <button class="btn btn-outline-primary w-100" type="submit" name="import_holidays" value="1"
                                     formnovalidate>
                                 <i class="ti ti-file-import" aria-hidden="true"></i>
                                 <?= oncallforms_escape(__('Importar CSV', 'oncallforms')) ?>
                             </button>
+                        </div>
+                        <div class="col-md-3">
+                            <a class="btn btn-outline-secondary w-100"
+                               href="<?= oncallforms_escape($holidaysExportUrl) ?>">
+                                <i class="ti ti-file-export" aria-hidden="true"></i>
+                                <?= oncallforms_escape(__('Exportar CSV', 'oncallforms')) ?>
+                            </a>
                         </div>
                     </div>
                 </div>
